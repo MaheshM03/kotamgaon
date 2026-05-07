@@ -1,0 +1,68 @@
+# OS Files
+.DS_Store
+Thumbs.db
+*.swp
+*.swo
+*~
+.env
+.env.local
+
+# IDE
+.vscode/
+.idea/
+*.sublime-workspace
+*.sublime-project
+
+# Dependencies
+vendor/
+node_modules/
+composer.lock
+package-lock.json
+
+# Application
+application/cache/*
+!application/cache/index.html
+application/logs/*
+!application/logs/index.html
+system/logs/*
+!system/logs/index.html
+
+# Database backups
+*.sql
+*.sql.gz
+
+# Temporary/Build files
+*.zip
+*.tar.gz
+.tmp/
+build/
+dist/
+
+# CRITICAL: Exclude malicious/suspicious directories and files
+# These should be removed immediately - they contain backdoors
+brzefmq/
+cgi-bin/
+g1xnzrv/
+igrptyu/
+joxinbm/
+lauzfno/
+qhlwmiu/
+rahmwqu/
+rpt1hmg/
+shop/
+spc1itw/
+uwniqgz/
+yfedjzk/
+zldwkef/
+
+# Suspicious PHP files at root
+2cb6f93d413868.html
+2cb6f93d413868.php
+gcegfpxc.php
+wp-xmlrpc.php
+insc.php
+readmes.php
+index.php.0
+
+# Do NOT add system or application directories
+# These contain the legitimate framework code

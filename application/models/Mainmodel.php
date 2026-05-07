@@ -50,9 +50,8 @@ public function wish_list_exists($a_id,$p_id)
 {
 	    $this->db->select('*');
 		$this->db->from('pv_wishlist');
-		
-		$this->db->where("(user_id=$a_id AND tour_id=$p_id)");
-	
+		$this->db->where('user_id', $a_id);
+		$this->db->where('tour_id', $p_id);
 		$query = $this->db->get();
 		 if($query->num_rows() > 0)
 		 {
@@ -100,9 +99,9 @@ public function wish_list_exists($a_id,$p_id)
 	function check_valid_login($username,$password)
     {    
 		$this->db->where('admin_login_password', $password);
-        $this->db->where('admin_status=', 'Approve');
+        $this->db->where('admin_status', 'Approve');
         //$this->db->where('admin_type=', 'super_admin');
-		$this->db->where("admin_login_id='".$username."'");
+		$this->db->where('admin_login_id', $username);
 		$q = $this->db->get('admin_users'); 
         if($q->row())
         { 
@@ -141,8 +140,8 @@ public function wish_list_exists($a_id,$p_id)
     function check_valid_dept_login($username,$password)
     {    
         $this->db->where('dept_password', $password);
-        $this->db->where('dept_status=', 'Active');
-        $this->db->where("dept_username='".$username."'");
+        $this->db->where('dept_status', 'Active');
+        $this->db->where('dept_username', $username);
 
         $q = $this->db->get('department'); 
         if($q->row())
@@ -158,8 +157,8 @@ public function wish_list_exists($a_id,$p_id)
     function check_valid_author_login($username,$password)
     {    
         $this->db->where('author_password', $password);
-        $this->db->where('author_status=', 'Active');
-        $this->db->where("author_email='".$username."'");
+        $this->db->where('author_status', 'Active');
+        $this->db->where('author_email', $username);
 
         $q = $this->db->get('author'); 
         if($q->row())
@@ -175,8 +174,8 @@ public function wish_list_exists($a_id,$p_id)
      function check_valid_ceo_login($username,$password)
     {    
         $this->db->where('ceo_password', $password);
-        $this->db->where('ceo_status=', 'Active');
-        $this->db->where("ceo_email='".$username."'");
+        $this->db->where('ceo_status', 'Active');
+        $this->db->where('ceo_email', $username);
 
         $q = $this->db->get('ceo'); 
         if($q->row())
@@ -192,8 +191,8 @@ public function wish_list_exists($a_id,$p_id)
     function check_valid_vp_login($username,$password)
     {    
         $this->db->where('vp_password', $password);
-        $this->db->where('vp_status=', 'Active');
-        $this->db->where("vp_email='".$username."'");
+        $this->db->where('vp_status', 'Active');
+        $this->db->where('vp_email', $username);
 
         $q = $this->db->get('vp'); 
         if($q->row())
