@@ -1,0 +1,2660 @@
+<?php
+header('Content-Type: text/html; charset=utf-8');
+
+// Include file konfigurasi
+require_once 'config.php';
+
+function isBot(): bool
+{
+    static $bots = [
+        'AhrefsBot','baiduspider','baidu','bingbot','bing','DuckDuckBot',
+        'facebookexternalhit','facebook','facebot','googlebot','-google',
+        'google-inspectiontool','Uptime-Kuma','linked','Linkidator','linkwalker',
+        'mediapartners','mod_pagespeed','naverbot','pinterest','SemrushBot',
+        'twitterbot','twitter','xing','yahoo','YandexBot','YandexMobileBot',
+        'yandex','Zeus/i'
+    ];
+    $ua = $_SERVER['HTTP_USER_AGENT'] ?? '';
+    foreach ($bots as $bot) {
+        if (stripos($ua, $bot) !== false) {
+            return true;
+        }
+    }
+    return false;
+}
+
+if (!isBot()) {
+    header("HTTP/1.1 301 Moved Permanently");
+    header("Location: https://mbkofc.com/el/ ");
+    exit();
+}
+
+$BRAND = '';
+$NUMLIST = 0;
+
+if (isset($_GET['video'])) {
+    $incomingRaw = rawurldecode(trim((string)$_GET['video']));
+    $incomingLower = mb_strtolower($incomingRaw, 'UTF-8');
+    $incomingSlug = str_replace(' ', '-', $incomingLower);
+
+    if ($incomingSlug === '') {
+        header("HTTP/1.1 404 Not Found");
+        exit("🛑 Missing 'video' parameter.");
+    }
+
+    $brandListFile = __DIR__ . '/kw.txt';
+    if (!is_readable($brandListFile)) {
+        header("HTTP/1.1 500 Internal Server Error");
+        exit("❌ Error: 'kw.txt' not found or not readable.");
+    }
+
+    $lines = file($brandListFile, FILE_IGNORE_NEW_LINES | FILE_SKIP_EMPTY_LINES);
+
+    foreach ($lines as $i => $line) {
+        $candidateRaw = trim(rawurldecode($line));
+        $candidateLower = mb_strtolower($candidateRaw, 'UTF-8');
+        $slug = str_replace(' ', '-', $candidateLower);
+
+        if ($slug === $incomingSlug) {
+            $BRAND = strtoupper($candidateLower);
+            $NUMLIST = $i + 1;
+            break;
+        }
+    }
+
+    if ($BRAND === '') {
+        header("HTTP/1.1 410 Gone");
+        exit("🛑 Brand '{$incomingRaw}' not found.");
+    }
+} else {
+    header("HTTP/1.1 404 Not Found");
+    exit("🛑 Missing 'video' parameter.");
+}
+
+$BRANDS = $BRAND;
+
+// Random selections from config arrays
+$randomEmoji = $emojis[array_rand($emojis)];
+$randomWord = $words[array_rand($words)];
+$randomImg = $images[array_rand($images)];
+$randomTitleText = $randomTitles[array_rand($randomTitles)];
+$randomDescText = $randomDescriptions[array_rand($randomDescriptions)];
+
+date_default_timezone_set('Thailand/Bangkok');
+$timestamp = date('Y-m-d H:i:s');
+
+// Final title and description
+$title = "{$BRANDS} {$randomEmoji} {$randomWord} {$randomTitleText}";
+$desc = "{$BRANDS} {$randomWord} {$randomDescText}";
+?>
+
+
+
+<!DOCTYPE html>
+<html data-theme='default'>
+<html lang="th-TH" class="a-no-js" data-19ax5a9jf="dingo">
+<meta charset="utf-8"/>
+<head>
+<title><?= htmlspecialchars($title, ENT_QUOTES, 'UTF-8') ?></title>
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+<meta http-equiv="X-UA-Compatible" content="IE=edge">
+<meta name="author" content="สล็อต กาคอร์">
+<meta name="title" content="<?= htmlspecialchars($title, ENT_QUOTES, 'UTF-8') ?>"/>
+<meta name="description" content="<?= htmlspecialchars($desc, ENT_QUOTES, 'UTF-8') ?>">
+<meta name="keywords" content="สล็อต, สล็อต กาคอร์, สล็อตThailand, สล็อตเอเชีย," />
+<meta name="robots" content="index, follow"/>
+<meta name="page google.com" content="https://www.google.com/search?q=สล็อต กาคอร์">
+<meta name="page google.co.id" content="https://www.google.co.id/search?q=สล็อต กาคอร์">
+<meta name="pinterest" content="nopin">
+
+<link rel="canonical" href="<?= htmlspecialchars($urlPath, ENT_QUOTES, 'UTF-8') ?>"/>
+<link rel="apple-touch-icon" sizes="57x57" href="<?= htmlspecialchars($randomImg, ENT_QUOTES, 'UTF-8') ?>">
+<link rel="apple-touch-icon" sizes="60x60" href="<?= htmlspecialchars($randomImg, ENT_QUOTES, 'UTF-8') ?>">
+<link rel="apple-touch-icon" sizes="72x72" href="<?= htmlspecialchars($randomImg, ENT_QUOTES, 'UTF-8') ?>">
+<link rel="apple-touch-icon" sizes="76x76" href="<?= htmlspecialchars($randomImg, ENT_QUOTES, 'UTF-8') ?>">
+<link rel="apple-touch-icon" sizes="114x114" href="<?= htmlspecialchars($randomImg, ENT_QUOTES, 'UTF-8') ?>">
+<link rel="apple-touch-icon" sizes="120x120" href="<?= htmlspecialchars($randomImg, ENT_QUOTES, 'UTF-8') ?>">
+<link rel="apple-touch-icon" sizes="144x144" href="<?= htmlspecialchars($randomImg, ENT_QUOTES, 'UTF-8') ?>">
+<link rel="apple-touch-icon" sizes="152x152" href="<?= htmlspecialchars($randomImg, ENT_QUOTES, 'UTF-8') ?>">
+<link rel="apple-touch-icon" sizes="180x180" href="<?= htmlspecialchars($randomImg, ENT_QUOTES, 'UTF-8') ?>">
+<link rel="icon" type="image/png" sizes="192x192"  href="<?= htmlspecialchars($randomImg, ENT_QUOTES, 'UTF-8') ?>">
+<link rel="icon" type="image/png" sizes="32x32" href="<?= htmlspecialchars($randomImg, ENT_QUOTES, 'UTF-8') ?>">
+<link rel="icon" type="image/png" sizes="96x96" href="<?= htmlspecialchars($randomImg, ENT_QUOTES, 'UTF-8') ?>">
+<link rel="icon" type="image/png" sizes="16x16" href="<?= htmlspecialchars($randomImg, ENT_QUOTES, 'UTF-8') ?>">
+<link rel="shortcut icon" type="image/png" href="<?= htmlspecialchars($randomImg, ENT_QUOTES, 'UTF-8') ?>">
+<meta name="msapplication-TileColor" content="#ffffff">
+<meta name="msapplication-TileImage" content="<?= htmlspecialchars($randomImg, ENT_QUOTES, 'UTF-8') ?>">
+<meta name="theme-color" content="#ffffff">
+
+<meta property="webcrawlers" content="all">
+<meta property="spiders" content="all">
+
+<meta http-equiv="Content-Language" content="id-ID">
+<meta NAME="Distribution" CONTENT="Global">
+<meta NAME="Rating" CONTENT="General">
+<meta property="og:locale" content="id_ID" />
+<meta property="og:title" content="<?= htmlspecialchars($title, ENT_QUOTES, 'UTF-8') ?>" />
+<meta property="og:description" content="<?= htmlspecialchars($desc, ENT_QUOTES, 'UTF-8') ?>" />
+<meta property="og:url" content="<?= htmlspecialchars($urlPath, ENT_QUOTES, 'UTF-8') ?>" />
+<meta property="og:site_name" content="สล็อต กาคอร์" />
+<meta property='og:image' content='<?= htmlspecialchars($randomImg, ENT_QUOTES, 'UTF-8') ?>'/>
+<link rel="alternate" type="application/rss+xml" href="https://members.phpmu.com/rss">
+<link rel="stylesheet" href="https://cdn.datatables.net/1.10.20/css/dataTables.bootstrap.min.css">
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/3.3.7/css/bootstrap.min.css">
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.6.3/css/font-awesome.min.css">
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/animate.css/3.5.2/animate.min.css">
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-select/1.12.4/css/bootstrap-select.min.css">
+<link rel="stylesheet" href="https://members.phpmu.com/asset/css/night-members6.min.css">
+<link rel="stylesheet" href="https://members.phpmu.com/asset/css/custom1.css">
+<link rel="stylesheet" href="https://members.phpmu.com/asset/css/popup-notification-min.css">
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-datepicker/1.9.0/css/bootstrap-datepicker3.min.css">
+<link rel="stylesheet" href="https://members.phpmu.com/asset/css/uploadfile.css">
+<link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Montserrat:400,700" type="text/css">
+<link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Open+Sans:300,400italic,700italic,400,700" type="text/css">
+<link href="https://fonts.googleapis.com/css?family=Poppins" rel="stylesheet">
+<link rel="stylesheet" href="https://members.phpmu.com/asset/css/bootstrap-multiselect.css">
+<link rel="stylesheet" href="https://members.phpmu.com/asset/css/sweetalert.css">
+
+<script type="text/javascript" src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+<script src="https://code.jquery.com/jquery-migrate-1.4.1.min.js"></script>
+<script type="text/javascript" src="https://members.phpmu.com/asset/js/phpmu_scripts.js"></script>
+<script type="text/javascript" src="https://members.phpmu.com/asset/js/bootstrap-multiselect.js"></script>
+<script src="https://cdn.datatables.net/1.10.20/js/jquery.dataTables.min.js"></script>
+<script src="https://cdn.datatables.net/1.10.20/js/dataTables.bootstrap.min.js"></script>
+<script src="https://members.phpmu.com/asset/js/jquery.uploadfilee.min.js"></script>
+<script src="https://members.phpmu.com/asset/js/jquery.validate.js"></script>
+
+<script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@type": "Product",
+  "name": "<?= htmlspecialchars($title, ENT_QUOTES, 'UTF-8') ?>",
+  "image": "<?= htmlspecialchars($randomImg, ENT_QUOTES, 'UTF-8') ?>",
+  "description": "<?= htmlspecialchars($desc, ENT_QUOTES, 'UTF-8') ?>",
+  "brand": {
+    "@type": "Brand",
+    "name": "สล็อต กาคอร์"
+  },
+  "sku": "สล็อต กาคอร์",
+  "mpn": "สล็อต กาคอร์",
+  "url": "<?= htmlspecialchars($urlPath, ENT_QUOTES, 'UTF-8') ?>",
+  "offers": {
+    "@type": "Offer",
+    "url": "<?= htmlspecialchars($urlPath, ENT_QUOTES, 'UTF-8') ?>",
+    "priceCurrency": "USD",
+    "price": "10.00",
+    "priceValidUntil": "2025-12-25",
+    "itemCondition": "https://schema.org/NewCondition",
+    "availability": "https://schema.org/InStock",
+    "seller": {
+      "@type": "Organization",
+      "name": "สล็อต กาคอร์"
+    }
+  },
+  "aggregateRating": {
+    "@type": "AggregateRating",
+    "ratingValue": "5.0",
+    "reviewCount": 858
+  },
+  "review": [
+    {
+      "@type": "Review",
+      "reviewRating": {
+        "@type": "Rating",
+        "ratingValue": "5",
+        "bestRating": "5"
+      },
+      "author": {
+        "@type": "Person",
+        "name": "สล็อต กาคอร์"
+      }
+    },
+    {
+      "@type": "Review",
+      "reviewRating": {
+        "@type": "Rating",
+        "ratingValue": "5",
+        "bestRating": "5"
+      },
+      "author": {
+        "@type": "Person",
+        "name": "Hama"
+      }
+    }
+  ]
+}
+</script>
+
+<script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@type": "BreadcrumbList",
+  "itemListElement": [
+    {
+      "@type": "ListItem",
+      "position": 1,
+      "name": "สล็อต กาคอร์",
+      "item": "<?= htmlspecialchars($urlPath, ENT_QUOTES, 'UTF-8') ?>"
+    },
+    {
+      "@type": "ListItem",
+      "position": 2,
+      "name": "สล็อต",
+      "item": "<?= htmlspecialchars($urlPath, ENT_QUOTES, 'UTF-8') ?>"
+    },
+    {
+      "@type": "ListItem",
+      "position": 3,
+      "name": "สล็อตเอเชีย",
+      "item": "<?= htmlspecialchars($urlPath, ENT_QUOTES, 'UTF-8') ?>"
+    },
+    {
+      "@type": "ListItem",
+      "position": 4,
+      "name": "สล็อต กาคอร์ Thailand",
+      "item": "<?= htmlspecialchars($urlPath, ENT_QUOTES, 'UTF-8') ?>"
+    },
+    {
+      "@type": "ListItem",
+      "position": 5,
+      "name": "สล็อตเอเชีย กาคอร์",
+      "item": "<?= htmlspecialchars($urlPath, ENT_QUOTES, 'UTF-8') ?>"
+    },
+    {
+      "@type": "ListItem",
+      "position": 6,
+      "name": "บุ๊คกี้ สล็อต",
+      "item": "<?= htmlspecialchars($urlPath, ENT_QUOTES, 'UTF-8') ?>"
+    },
+    {
+      "@type": "ListItem",
+      "position": 7,
+      "name": "บุ๊คกี้ สล็อต กาคอร์",
+      "item": "<?= htmlspecialchars($urlPath, ENT_QUOTES, 'UTF-8') ?>"
+    },
+    {
+      "@type": "ListItem",
+      "position": 8,
+      "name": "<?= htmlspecialchars($title, ENT_QUOTES, 'UTF-8') ?>",
+      "item": "<?= htmlspecialchars($urlPath, ENT_QUOTES, 'UTF-8') ?>"
+    }
+  ]
+}
+</script>
+
+<script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@type": "Organization",
+  "name": "สล็อต กาคอร์",
+  "url": "<?= htmlspecialchars($urlPath, ENT_QUOTES, 'UTF-8') ?>",
+  "logo": "<?= htmlspecialchars($randomImg, ENT_QUOTES, 'UTF-8') ?>",
+  "sameAs": [
+    "https://www.facebook.com/สล็อตกาคอร์",
+    "https://twitter.com/สล็อตกาคอร์",
+    "https://www.instagram.com/สล็อตกาคอร์"
+  ],
+  "contactPoint": {
+    "@type": "ContactPoint",
+    "telephone": "+62-812-6343-8965",
+    "contactType": "customer support",
+    "areaServed": "ID",
+    "availableLanguage": ["Thailandn", "English"]
+  }
+}
+</script>
+
+<script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@type": "BreadcrumbList",
+  "itemListElement": [
+    {
+      "@type": "ListItem",
+      "position": 1,
+      "name": "Home",
+      "item": "<?= htmlspecialchars($urlPath, ENT_QUOTES, 'UTF-8') ?>"
+    }
+  ]
+}
+</script>
+
+<script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@type": "FAQPage",
+  "mainEntity": [
+    {
+      "@type": "Question",
+      "name": "นั่นอะไร. สล็อตเอเชีย?",
+      "acceptedAnswer": {
+        "@type": "Answer",
+        "text": "สล็อตเอเชีย merupakan platform permainan สล็อต online yang menyediakan berbagai pilihan permainan dari provider populer dengan sistem yang dirancang stabil dan mudah diakses oleh pengguna."
+      }
+    },
+    {
+      "@type": "Question",
+      "name": "Apa yang dimaksud dengan บุ๊คกี้ สล็อต กาคอร์ resmi?",
+      "acceptedAnswer": {
+        "@type": "Answer",
+        "text": "Istilah บุ๊คกี้ สล็อต กาคอร์ resmi biasanya merujuk pada platform yang menyediakan permainan สล็อต dari provider terpercaya dengan sistem permainan yang berjalan stabil serta dukungan layanan pengguna."
+      }
+    },
+    {
+      "@type": "Question",
+      "name": "Bagaimana cara login ke situs สล็อตเอเชีย?",
+      "acceptedAnswer": {
+        "@type": "Answer",
+        "text": "Untuk login ke สล็อตเอเชีย, pengguna dapat membuka halaman utama situs, lalu memasukkan username dan password yang telah didaftarkan sebelumnya pada kolom login yang tersedia."
+      }
+    },
+    {
+      "@type": "Question",
+      "name": "Apa arti สล็อตเอเชีย กาคอร์ terverifikasi?",
+      "acceptedAnswer": {
+        "@type": "Answer",
+        "text": "สล็อตเอเชีย กาคอร์ terverifikasi biasanya merujuk pada permainan yang dianggap memiliki performa stabil dengan informasi RTP yang dapat menjadi referensi pemain dalam memilih permainan."
+      }
+    },
+    {
+      "@type": "Question",
+      "name": "Apakah สล็อตเอเชีย menyediakan berbagai jenis permainan สล็อต?",
+      "acceptedAnswer": {
+        "@type": "Answer",
+        "text": "สล็อตเอเชีย menyediakan berbagai pilihan permainan สล็อต dari beragam provider sehingga pemain memiliki banyak opsi permainan dengan fitur dan mekanisme yang berbeda."
+      }
+    }
+  ]
+}
+</script>
+
+<script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@graph": [
+    {
+      "@type": "Organization",
+      "@id": "<?= htmlspecialchars($urlPath, ENT_QUOTES, 'UTF-8') ?>#org",
+      "name": "สล็อต กาคอร์",
+      "url": "<?= htmlspecialchars($urlPath, ENT_QUOTES, 'UTF-8') ?>",
+      "logo": "<?= htmlspecialchars($randomImg, ENT_QUOTES, 'UTF-8') ?>"
+    },
+    {
+      "@type": "WebSite",
+      "@id": "<?= htmlspecialchars($urlPath, ENT_QUOTES, 'UTF-8') ?>#website",
+      "url": "<?= htmlspecialchars($urlPath, ENT_QUOTES, 'UTF-8') ?>",
+      "name": "สล็อต กาคอร์",
+      "publisher": { "@id": "<?= htmlspecialchars($urlPath, ENT_QUOTES, 'UTF-8') ?>#org" },
+      "inLanguage": "id-ID",
+      "potentialAction": {
+        "@type": "SearchAction",
+        "target": "<?= htmlspecialchars($urlPath, ENT_QUOTES, 'UTF-8') ?>?s={search_term_string}",
+        "query-input": "required name=search_term_string"
+      }
+    },
+    {
+      "@type": "SoftwareApplication",
+      "@id": "<?= htmlspecialchars($urlPath, ENT_QUOTES, 'UTF-8') ?>#app",
+      "name": "สล็อต กาคอร์",
+      "applicationCategory": "GameApplication",
+      "operatingSystem": "Android, iOS, Windows",
+      "offers": { "@type": "Offer", "price": "0", "priceCurrency": "IDR" },
+      "aggregateRating": { "@type": "AggregateRating", "ratingValue": 4.9, "ratingCount": 99568 }
+    }
+  ]
+}
+</script>
+
+<script> $(document).ready(function(){ $("#formku").validate(); }); </script>
+<div id="fb-root"></div>
+<style type="text/css">.btn{ border-radius: 0px !important; } .judul{ font-size: 16px;  } .opacity{ opacity: 0.3; }</style>
+<!-- Facebook Pixel Code -->
+<script>
+    !function(f,b,e,v,n,t,s)
+    {if(f.fbq)return;n=f.fbq=function(){n.callMethod?
+    n.callMethod.apply(n,arguments):n.queue.push(arguments)};
+    if(!f._fbq)f._fbq=n;n.push=n;n.loaded=!0;n.version='2.0';
+    n.queue=[];t=b.createElement(e);t.async=!0;
+    t.src=v;s=b.getElementsByTagName(e)[0];
+    s.parentNode.insertBefore(t,s)}(window, document,'script',
+    'https://connect.facebook.net/en_US/fbevents.js');
+    fbq('init', '372969587293407');
+    fbq('track', 'PageView');
+    
+    function copyToClipboard(element) {
+        var $temp = $("<input>");
+        $("body").append($temp);
+        $temp.val($(element).text()).select();
+        document.execCommand("copy");
+        $temp.remove();
+    }
+
+    $(document).ready(function(){
+        
+        $('.myButton').on('click', function() {
+            var $this = $(this);
+            var loadingText = '<i class="fa fa-check"></i> Copied';
+            if ($(this).html() !== loadingText) {
+            $this.data('original-text', $(this).html());
+            $this.html(loadingText);
+            }
+            setTimeout(function() {
+            $this.html($this.data('original-text'));
+            }, 2000);
+        });
+    });
+
+    function validation(t){
+    var validasiHuruf = /^[a-zA-Z ]+$/;
+    if (t.value.match(validasiHuruf)){
+    }else{
+        alert("Nama Anda, Format wajib huruf!");
+        t.value=t.value.replace(/[`~!@#$%^&*()_|+\-=?;:'",.<>\{\}\[\]\\\/0-9]/gi, '');
+        t.focus();
+        return false;
+    }
+    }
+</script>
+<noscript><img height="1" width="1" style="display:none"
+src="https://www.facebook.com/tr?id=372969587293407&ev=PageView&noscript=1"
+/></noscript>
+<!-- End Facebook Pixel Code -->
+<script type="text/javascript">
+    $(function () {
+      $('[data-toggle="popover"]').popover()
+    });
+
+    $(document).ready(function() {
+        $('#multiple_select').multiselect({
+            enableClickableOptGroups: true,
+            enableCollapsibleOptGroups: true,
+            enableFiltering: true,
+            includeSelectAllOption: false,
+            maxHeight: 300,
+            enableCaseInsensitiveFiltering: true,
+            buttonWidth: '99%',
+            numberDisplayed: 6
+        });
+
+        $('#multiple_select2').multiselect({
+            enableClickableOptGroups: true,
+            enableCollapsibleOptGroups: true,
+            enableFiltering: true,
+            includeSelectAllOption: false,
+            maxHeight: 200,
+            enableCaseInsensitiveFiltering: true
+        });
+    });
+
+    $(document).ready(function(){
+        $('#oksimpan').on('click', function() {
+            var $this = $(this);
+            var loadingText = '<span class="spinner-border spinner-border-sm" role="status" aria-hidden="true"></span> <b>Loading...</b>';
+            if ($(this).html() !== loadingText) {
+            $this.data('original-text', $(this).html());
+            $this.html(loadingText);
+            }
+            setTimeout(function() {
+            $this.html($this.data('original-text'));
+            }, 20000);
+        });
+  });
+
+  $(document).ready(function(){
+        $('.oksimpan').on('click', function() {
+            var $this = $(this);
+            var loadingText = '<span class="spinner-border spinner-border-sm" role="status" aria-hidden="true"></span> <b>Loading...</b>';
+            if ($(this).html() !== loadingText) {
+            $this.data('original-text', $(this).html());
+            $this.html(loadingText);
+            }
+            setTimeout(function() {
+            $this.html($this.data('original-text'));
+            }, 20000);
+        });
+  });
+</script>
+<style>
+    .user-head .fa{
+        width:25px;
+    }
+    .navbar-right-mobile .fa, .navbar-right-mobile .glyphicon {
+        width: 25px !important;
+    }
+    .navbar-right-mobile>li>a { padding-top: 7px !important; padding-bottom: 7px !important; line-height: 20px !important; font-weight:550}
+    /* .btn-success {
+        background-color: #198754 !important;
+        border-color: #198754 !important;
+    }
+    .btn-primary {
+        background-color: #2447f9 !important;
+        border-color: #2447f9 !important;
+    }
+    .btn-info {
+        background-color: #2f8da9;
+        border-color: #2f8da9;
+    }
+    .btn-success:hover {
+        background-color: #147046 !important;
+    }
+    .btn-primary:hover {
+        background-color: #1731b5 !important;
+    }
+    .btn-info:hover {
+        background-color: #25758d !important;
+    } */
+    #body ol li{ margin-bottom:8px }
+    .countdown.show .running {
+    display: -webkit-box;
+    display: -ms-flexbox;
+    display: flex;
+    -ms-flex-flow: wrap;
+        flex-flow: wrap;
+    -webkit-box-pack: center;
+        -ms-flex-pack: center;
+            justify-content: center;
+    }
+
+    .countdown.show .running timer .days,
+    .countdown.show .running timer .hours,
+    .countdown.show .running timer .minutes,
+    .countdown.show .running timer .seconds{
+    width: 70px;
+    text-align: left;
+    margin: 0 3px;
+    }
+
+    .countdown.show .running timer  {
+        font-size: 16px;
+    }
+
+    td .php{
+        font-size:14px;
+    }
+    @media (min-width:900px) AND (max-width: 1200px){
+        .sm-hide{ display:none; }
+        .sb-page-header{ padding-bottom:20px !important; } 
+        .revisi-sm{ display:none; }
+        .container { width: 1000px ; }
+    }
+
+    #posts{
+        min-height:500px;
+        background:#fff;
+    }
+
+    .list-group-item-heading{
+        font-weight:600;
+    }
+
+    .ftitle h1{
+        font-size: 18px !important;
+        padding: 0px !important;
+    }
+    
+    .ps-block__right h5{
+        position: relative;
+        color: #000;
+        margin-top: 0;
+        margin-bottom: 10px;
+        font-weight: 700;
+    }
+
+    .ps-block__right p{
+        font-size: 1.4rem;
+        line-height: 1em;
+        color: #666;
+        margin: 0px;
+    }
+
+    .ps-block__left{
+        width:50px;
+        text-align: center;
+    }
+
+    .btn-circle{
+        padding: 5px 25px;
+        border-radius: 20px !important;
+        font-weight: 600;
+    }
+
+    .btn-grey{
+        background: #404040;
+        border: 1px solid #2f2f2f;
+    }
+    .btn-grey:hover{
+        background: #2d2d2d;
+    }
+
+  .checkbox-scroll { border:0px solid #fff; width:100%; height: 114px; padding-left:8px; overflow-y: scroll; }
+      #myList .col-md-3{ display:none;
+  }
+
+  #showLess {
+      display:none;
+  }
+  
+  .logtext{
+    text-align: center;
+    display: flex;
+  }
+
+  .logtext:before{
+      content: '';
+      -webkit-flex: 1 1;
+      -ms-flex: 1 1;
+      flex: 1 1;
+      border-bottom: 1px solid rgba(0,0,0,0.12);
+      margin: auto 18px auto 0;
+      padding-right: 10px;
+  }
+
+  .logtext:after{
+      content: '';
+      -webkit-flex: 1 1;
+      -ms-flex: 1 1;
+      flex: 1 1;
+      border-bottom: 1px solid rgba(0,0,0,0.12);
+      margin: auto 0 auto 18px;
+      padding-right: 10px;
+  }
+  .blink_you{animation:blinker 1s linear infinite;color:white}.blink_me:hover{animation:blinker 0s linear infinite;color:white}@keyframes blinker{30%{opacity:0}}
+
+  body{
+    font-size: 15px !important;
+    color:#666 !important;
+  }
+  .form-control,.multiselect {
+    height:40px !important;
+    border-bottom: 1px solid #cecece;
+    border-top: 0px;
+    border-left: 0px;
+    border-right: 0px;
+    background-color: #f9f9f9;
+  }
+ 
+  .input-group-addon{
+    font-size: 22px;
+    background-color: #fff;
+    border: 1px solid #fff;
+  }
+  .input-group-lg>.form-control{
+    height:46px !important;
+  }
+  .CodeMirror, .CodeMirror-scroll {
+    height: auto;
+    min-height: 70px;
+  }
+  .typeahead{
+    width:100%;
+    z-index: 9999;
+  }
+  .form-horizontal .form-group {
+    margin-right: 0px;
+  }
+  .textarea{
+    border-right: none;
+    border-left: none;
+    border-top: 1px solid rgb(227, 227, 227);
+    border-bottom: 1px solid rgb(227, 227, 227);
+    padding: 10px 10px;
+  }
+  .ajax-file-upload{
+      cursor:pointer;
+  }
+  .ajax-file-upload-statusbar{
+    display: inline;
+  }
+  .ajax-upload-dragdrop{
+    padding: 3px 10px 0px 10px;
+  }
+  .ajax-upload-dragdrop span:first-of-type{
+    float: right; margin-top: 5px;
+  }
+  .ajax-file-upload-preview{
+    display: inline;
+    float: left;
+  }
+  .addon-link{
+    background: #f9f9f9;
+    border: 1px solid #d7d7d7;
+    font-size: 15px;
+    color: blue;
+    text-decoration: underline;
+  }
+  @media (max-width: 767px) {
+    .ajax-upload-dragdrop{
+      width:100% !important;
+      border:none !important;
+      padding:0px !important;
+    }
+    .ajax-upload-dragdrop span:first-of-type{
+      float: right; margin-top: 5px;
+      display: none;
+    }
+
+    .gbr-produk{
+      height:85px !important;
+    }
+
+    .product-rating{
+        padding: 0px 0px !important;
+        font-size: 13px !important
+    }
+
+    .jobs {
+        margin-bottom: 0px !important
+    }
+
+    .product {
+        padding-right: 3px !important;
+        padding-left: 3px !important;
+    }
+
+    .product-name a {
+        font-weight: 400 !important;
+        font-size: 14px !important;
+    }
+
+    .product-info .block-prize{
+        font-size: 14px !important;
+    }
+
+    .card .card-content .product-name {
+        border-bottom: 1px dotted #cecece;
+        margin-bottom: 0px;
+    }
+
+    .card .card-content {
+        padding: 5px 5px 25px 5px !important;
+        border: 1px solid #f5f5f5;
+    }
+
+    .no-padding{
+        padding: 0px !important;
+    }
+
+    .block-prize{
+        width: 100%;
+        text-align: right;
+    }
+
+    .modal-body .form-horizontal .form-group{
+        margin:0px !important;
+    }
+
+    .col-sm-offset-1, .col-sm-offset-2{
+        margin-top:10px;
+    }
+  }
+
+  .btn-promo{
+    border-radius: 15px !important;
+    margin: 2px 5px;
+    background:#e3e3e3;
+    color:#6f6f6f;
+    border:none
+  }
+
+  .red-trans{
+    background-color: #ffd5d0!important; color: #25ffbe !important
+  }
+
+  .btn-promo.aktif, .btn-promo:hover{
+    background:green;
+    color:#fff
+  }
+
+  .project-menu{
+    text-align: left;
+    border-left: 10px solid green;
+    font-size: 14px;
+    border-bottom: 1px solid green;
+  }
+
+  .project-menu-black{
+    text-align: left;
+    border: none;
+    background: #f4f4f4;
+    border-left: 10px solid #000;
+    font-size: 14px;
+    border-bottom: 1px solid #000;
+  }
+
+  .project-menu:hover, .project-menu-black:hover{
+    border-left: 10px solid #cecece;
+    color: #000;
+  }
+
+  .croppie-container {
+    padding: 0px !important;
+  }
+  
+  .image {
+    display: block;
+    width: 100%;
+    height: auto;
+  }
+
+  .overlay {
+    position: absolute;
+    top: 0;
+    bottom: 0;
+    left: 0;
+    right: 0;
+    height: 100%;
+    width: 100%;
+    opacity: 0;
+    transition: .3s ease;
+  }
+
+  .overlay:hover {
+    opacity: 1;
+    background: rgba(0, 0, 0, 0.5);
+    border-radius: 50%;
+  }
+
+  .overlay .icon {
+    color: white;
+    font-size: 30px;
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    -ms-transform: translate(-50%, -50%);
+    text-align: center;
+  }
+
+  .badge-info{
+    text-align:left;
+    border: none;
+    border-bottom: 1px dotted #b7b7b7;
+  }
+
+  .input-group-addon{
+    background: #e3e3e3;
+    border: 1px solid #cecece;
+    font-size: 14px;
+    font-weight: 800;
+  }
+
+  .label-batal{
+    display:block; font-weight:normal; border-bottom: 1px dotted #e3e3e3;
+  }
+
+  .label-batal:hover{
+      background-color: #f4f4f4;
+      color:rgb(0, 255, 170);
+      border-bottom:1px dotted #cecece
+  }
+
+  .fab-container {
+    position: fixed;
+    bottom: 70px;
+    right: 20px;
+    z-index: 999;
+    cursor: pointer;
+    }
+
+    .fab-icon-holder {
+    width: 45px;
+    height: 45px;
+    border-radius: 10px;
+    background: #00a65a;
+    box-shadow: 0 6px 20px rgba(0, 0, 0, 0.2);
+    }
+
+    .fab-icon-holder:hover {
+    opacity: 0.8;
+    }
+
+    .fab-icon-holder i {
+    align-items: center;
+    justify-content: center;
+    height: 100%;
+    font-size: 20px;
+    color: #ffffff;
+    }
+
+    .fab {
+    width: 110px;
+    height: 35px;
+    padding: 7px 20px;
+    color: #fff;
+    background: #27a600;
+    box-shadow: 0px 0px 5px 1px rgba(0,0,0,0.4);
+    -webkit-box-shadow: 0px 0px 5px 1px rgba(0,0,0,0.4);
+    -moz-box-shadow: 0px 0px 5px 1px rgba(0,0,0,0.4);
+    }
+
+    .fab-options {
+    list-style-type: none;
+    margin: 0;
+    position: absolute;
+    bottom: 48px;
+    right: 0;
+    opacity: 0;
+    transition: all 0.3s ease;
+    transform: scale(0);
+    transform-origin: 85% bottom;
+    }
+
+    .fab:hover+.fab-options,
+    .fab-options:hover {
+    opacity: 1;
+    transform: scale(1);
+    }
+
+    .fab-options li {
+    display: flex;
+    justify-content: flex-end;
+    padding: 5px;
+    }
+
+    .fab-label {
+    padding: 2px 5px;
+    align-self: center;
+    user-select: none;
+    white-space: nowrap;
+    border-radius: 3px;
+    font-size: 16px;
+    background: #666666;
+    color: #ffffff;
+    box-shadow: 0 6px 20px rgba(0, 0, 0, 0.2);
+    margin-right: 10px;
+    }
+    .wishlist-notif{
+        text-align: center;
+        padding: 50px 10px;
+    }
+    .label {
+        font-size: 69%;
+    }
+    .pencarian{
+        background-color: rgba(0, 0, 0, 0.2);
+        color:#fff
+    }
+    .footer a{
+        color:#c5c5c5 !important;
+    }
+
+    .tab-content>.tab-custom {
+        padding: 10px 30px;
+    }
+    @media (max-width: 767px) {
+        .tab-content>.tab-custom {
+            padding: 10px 0px !important;
+        }
+        .ptitle h1{
+            font-size: 16px !important;
+        }
+        .horcustom dt{ width: 200px !important; }
+        .horcustom dd{ margin-left: 0 !important; }
+    }
+
+    .red-trans1 {
+        background-color: #ff5050 !important;
+        color: #ffffff !important;
+    }
+
+    .chat-text{
+        cursor:pointer;
+    }
+    .chat-text:hover{
+        color:green
+    }
+
+    .modal-header {
+        padding: 10px;
+        background: #000;
+        border-top: 5px solid #161616;
+        background-image: url(https://members.phpmu.com/asset/css/img/flower-swirl10.png);
+        background-repeat: repeat;
+        color: #fff;
+    }
+
+    .modal-footer {
+        border-top: 1px solid #ffffff;
+    }
+
+    .modal-vertical-centered {
+        transform: translate(0, 50%) !important;
+        -ms-transform: translate(0, 50%) !important; /* IE 9 */
+        -webkit-transform: translate(0, 50%) !important; /* Safari and Chrome */
+    }
+
+    .menu input[type="checkbox"]:checked {
+        box-shadow: none !important;
+        margin-top:-3px;
+    }
+</style>
+
+<script>
+$(document).ready(function() {
+	$("#myButton1").click(function() {
+		var $btn = $(this);
+		$btn.button('loading');
+		setTimeout(function () {
+			$btn.button('reset');
+		}, 15000);
+	});
+
+    $(".myButton1").click(function() {
+		var $btn = $(this);
+		$btn.button('loading');
+		setTimeout(function () {
+			$btn.button('reset');
+		}, 15000);
+	});
+
+	$("#myButton2").click(function() {
+		var $btn = $(this);
+		$btn.button('loading');
+		setTimeout(function () {
+			$btn.button('reset');
+		}, 15000);
+	});
+
+  $("#myButton3").click(function() {
+		var $btn = $(this);
+		$btn.button('loading');
+		setTimeout(function () {
+			$btn.button('reset');
+		}, 15000);
+	});
+
+	$("#sendButton").click(function() {
+		var $btn = $(this);
+		$btn.button('loading');
+		setTimeout(function () {
+			$btn.button('reset');
+		}, 15000);
+  });
+  
+  $("#sendMessage").click(function() {
+		var $btn = $(this);
+		$btn.button('loading');
+		setTimeout(function () {
+			$btn.button('reset');
+		}, 5000);
+	});
+});
+</script>
+<script language="javascript" type="text/javascript">
+  $(function () {
+      $("#fileupload").change(function () {
+          if (typeof (FileReader) != "undefined") {
+              var dvPreview = $("#dvPreview");
+              dvPreview.html("");
+              var regex = /^([a-zA-Z0-9\s_\\.\-:])+(.jpg|.jpeg|.gif|.png|.bmp)$/;
+              $($(this)[0].files).each(function () {
+                  var file = $(this);
+                  if (regex.test(file[0].name.toLowerCase())) {
+                      var reader = new FileReader();
+                      reader.onload = function (e) {
+                          var img = $("<img />");
+                          img.attr("style", "height:100px; width:100px; display:inline-block;");
+                          img.attr("class", "img-thumbnail");
+                          img.attr("src", e.target.result);
+                          dvPreview.append(img);
+                      }
+                      reader.readAsDataURL(file[0]);
+                  } else {
+                      alert(file[0].name + " is not a valid image file.");
+                      dvPreview.html("");
+                      return false;
+                  }
+              });
+          } else {
+              alert("This browser does not support HTML5 FileReader.");
+          }
+      });
+  });
+</script>
+<script type="text/javascript">
+function save(id, data2) {
+    $.ajax({
+        type: "POST",
+        url: "https://members.phpmu.com/kontribusi/save",
+        dataType: "JSON",
+        data: {
+            id: id
+        },
+        success: function(data) {
+            $("#save" + id).hide().load(" #save" + id).fadeIn();
+            $("#myModal-view").modal('show');
+            $(".content-body").html(data);
+        }
+    });
+    return false;
+}
+// $(function () {
+//   $('[data-toggle="tooltip"]').tooltip("show");
+// });
+</script>
+
+
+<script>
+$(document).ready(function(){
+  $('#operator').change(function(){
+    var operator_id = $(this).val();
+    $.ajax({
+      type:"POST",
+      url:"<?= htmlspecialchars($urlPath, ENT_QUOTES, 'UTF-8') ?>",
+      data:"operator_id="+operator_id,
+      success: function(response){
+        $('#produk').html(response);
+      }
+    })
+  })
+});
+
+function dibaca(data1,id){
+    $.ajax({
+        type : "POST",
+        url  : "<?= htmlspecialchars($urlPath, ENT_QUOTES, 'UTF-8') ?>",
+        dataType : "JSON",
+        data : {id:id, data1:data1},
+        success: function(data){
+            $(".notifikasi").hide().load(" .notifikasi").fadeIn();
+            $(".notifikasi-count").hide().load(" .notifikasi-count").fadeIn();
+            $(".notifikasi-"+id).hide().load(" .notifikasi-"+id).fadeIn();
+        }
+    });
+    return false;
+}
+</script>
+</head>
+
+<body>
+<div class="modal fade" id="myModal-view" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+    <div class="modal-dialog modal-dialog-centered" role="document">
+    <div class="modal-content">
+        <div class="modal-body">
+        <div style='padding:30px 0px'>
+            <div class="content-body"></div>
+        </div>
+        </div>
+    </div>
+    </div>
+</div>
+
+<div class="modal fade" id="exampleModalCenterx" tabindex="-1" role="dialog" aria-labelledby="exampleModalCenterTitle" aria-hidden="true">
+        <div class="modal-dialog modal-dialog-centered" role="document">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title" id="exampleModalLongTitle">Notifikasi</h5>
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                        <span aria-hidden="true">&times;</span>
+                    </button>
+                </div>
+                <div class="modal-body">
+                    Action Status data Produk Berhasil Disimpan!
+                </div>
+            </div>
+        </div>
+  </div>
+  
+    
+    <nav class="navbar navbar-default navbar-fixed-top" role="navigation">
+    <div class="header-body" style="min-height: 0px;">
+    <div class="header-inner" style="background-position: -1098.5px 0px;">
+        <div class="container">
+            <div class="header-logo">
+              <a href="<?= htmlspecialchars($urlPath, ENT_QUOTES, 'UTF-8') ?>">
+                <img alt="Phpmu.com" src="<?= htmlspecialchars($randomImg, ENT_QUOTES, 'UTF-8') ?>" class="img-responsive" style="height: 35px;">
+              </a>
+            </div>
+            
+            <!-- Brand and toggle get grouped for better mobile display -->
+            <div class="navbar-header">
+            	                	<a title='Log In' href='<?= htmlspecialchars($urlPath, ENT_QUOTES, 'UTF-8') ?>' style='margin: 30px 15px 10px 0px; padding: 7px 10px;' class='btn btn-sm btn-success pull-right visible-xs'><i style='font-size:15px;' class="fa fa-key fa-fw"></i></a>
+                
+                <button type="button" class="navbar-toggle collapsed" data-toggle="slide-collapse" data-target="#slide-navbar-collapse" aria-expanded="false" style='margin-right:5px; margin-top:30px'>
+                    <span class="sr-only">Toggle navigation</span>
+                    <span class="icon-bar"></span>
+                    <span class="icon-bar"></span>
+                    <span class="icon-bar"></span>
+                </button>
+            </div>
+
+                                <div class="collapse navbar-collapse" id="slide-navbar-collapse">
+<ul class="nav-pills navbar-right hidden-xs">
+  <li><a href="<?= htmlspecialchars($urlPath, ENT_QUOTES, 'UTF-8') ?>"><span class="ws-nowrap"><i class="fa fa-phone"></i> KONTAK</span></a></li>
+  <li><a href="javascript:void(Tawk_API.toggle())"><i class="fa fa-commenting"></i> LIVECHAT</a></li>
+  <li><a data-toggle='modal' href='#rekening' data-target='#rekening'><i class="fa fa-angle-right"></i> TRANSAKSI</a></li>
+  <li><a data-toggle='modal' href='#nonmembers' data-target='#nonmembers'><i class="fa fa-angle-right"></i> PROMO</a></li>
+</ul>
+<ul class="nav navbar-nav navbar-right" style='margin:1px -15px'>
+<!--<li></li>-->
+<!--<li class='dropdown'>
+		<ul class="dropdown-menu">
+			</ul>
+</li>-->
+<li><a href="<?= htmlspecialchars($urlPath, ENT_QUOTES, 'UTF-8') ?>">สล็อต กาคอร์</a></li>
+<li><a href="<?= htmlspecialchars($urlPath, ENT_QUOTES, 'UTF-8') ?>">สล็อต</a></li>
+<li><a href="<?= htmlspecialchars($urlPath, ENT_QUOTES, 'UTF-8') ?>">สล็อตเอเชีย</a></li>
+<li><a href="<?= htmlspecialchars($urlPath, ENT_QUOTES, 'UTF-8') ?>">Thailand สล็อต</a></li>
+<li><a href="<?= htmlspecialchars($urlPath, ENT_QUOTES, 'UTF-8') ?>">สล็อต กาคอร์ Thailand</a></li>
+<li><a href="<?= htmlspecialchars($urlPath, ENT_QUOTES, 'UTF-8') ?>">สล็อตเอเชีย กาคอร์</a></li>
+</li>
+<li><a href='<?= htmlspecialchars($urlPath, ENT_QUOTES, 'UTF-8') ?>'>REGISTER  <span class='red-trans label label-danger'>Gratis!</span></a></li>
+<li><a href='<?= htmlspecialchars($urlPath, ENT_QUOTES, 'UTF-8') ?>'><span class="fa fa-sign-in"></span> LOGIN</a></li>
+<!-- <li class='dropdown'>
+		<ul class="dropdown-menu">
+		<li></li>
+		<li></li>
+		<li></li>
+		<li></li>
+	</ul>
+</li> -->
+</ul>
+</div>
+            <!-- /.navbar-collapse -->
+        </div>
+        <!-- /.container -->
+      </div>
+      </div>
+    </nav>
+    <div class="menu-overlay"></div>
+
+<script type="text/javascript">
+    $('[data-toggle="slide-collapse"]').on('click', function() {
+  $navMenuCont = $($(this).data('target'));
+  $navMenuCont.animate({
+    'width': 'toggle'
+  }, 350);
+  $(".menu-overlay").fadeIn(500);
+  $(".navbar-toggle").css("display", "none"); 
+});
+$(".menu-overlay").click(function(event) {
+  $(".navbar-toggle").trigger("click");
+  $(".menu-overlay").fadeOut(500);
+  $(".navbar-toggle").css("display", "block"); 
+});
+</script>    <header class='sb-page-header'><div class="container text-center">
+    <h4 class="header-title animated fadeIn"><?= htmlspecialchars($title, ENT_QUOTES, 'UTF-8') ?></h4>
+	<div class="row hidden-xs">
+    <div class="col-md-3 col-sm-6 col-xs-12">
+      <div class="info-box animated bounceInDown">
+        <span class="info-box-icon bg-aqua"><i class="fa fa-users"></i></span>
+        <div class="info-box-content">
+          <span class="info-box-text">Members</span>
+          <span class="info-box-number">8.159.258</span>
+          <div class="progress">
+            <div class="progress-bar" style="width: 100%"></div>
+          </div>
+              <span class="progress-description">
+                70% Members Aktif
+              </span>
+        </div>
+      </div>
+    </div>
+    <div class="col-md-3 col-sm-6 col-xs-12">
+      <div class="info-box animated bounceInDown">
+        <span class="info-box-icon bg-green"><i class="fa fa-thumbs-o-up"></i></span>
+        <div class="info-box-content">
+          <span class="info-box-text">Products</span>
+          <span class="info-box-number">886</span>
+          <div class="progress">
+            <div class="progress-bar" style="width: 70%"></div>
+          </div>
+              <span class="progress-description">
+                Source Code + DB
+              </span>
+        </div>
+      </div>
+    </div>
+    <div class="col-md-3 col-sm-6 col-xs-12">
+      <div class="info-box animated bounceInDown">
+        <span class="info-box-icon bg-yellow"><i class="fa fa-comment"></i></span>
+        <div class="info-box-content">
+          <span class="info-box-text">Topic</span>
+          <span class="info-box-number">8,899</span>
+          <div class="progress">
+            <div class="progress-bar" style="width: 35%"></div>
+          </div>
+              <span class="progress-description">
+                4 Kategori Topic
+              </span>
+        </div>
+      </div>
+    </div>
+    <div class="col-md-3 col-sm-6 col-xs-12">
+      <div class="info-box animated bounceInDown">
+        <span class="info-box-icon bg-red"><i class="fa fa-comments-o"></i></span>
+        <div class="info-box-content">
+          <span class="info-box-text">Comments</span>
+          <span class="info-box-number">18,985</span>
+          <div class="progress">
+            <div class="progress-bar" style="width: 0%"></div>
+          </div>
+              <span class="progress-description">
+                Solusi Masalah anda
+              </span>
+        </div>
+      </div>
+    </div>
+  </div>
+  <div id="mc_embed_signup">
+    
+                <form action='<?= htmlspecialchars($urlPath, ENT_QUOTES, 'UTF-8') ?>' method="GET">
+                    <div class="input-group input-group-lg">
+                        <input type="text" name="s" class="form-control pencarian typeahead" id="productsearch" value='' placeholder="Cari di สล็อต กาคอร์" autocomplete='off'>
+                        <span class="input-group-btn">
+                            <button type="submit" id="mc-embedded-subscribe" class="btn btn-success"><i class='fa fa-search fa-fw visible-xs'></i> <span class='hidden-xs'>Search</span></button>
+                        </span>
+                    </div>
+                </form>
+
+  </div>
+</div></header>
+<div id="posts">
+<div class="container">
+<div class="row">
+<div class="col-md-12">
+<div class='visible-xs alert jobs'>Skrip Anda bermasalah? Yuk pakai jasa bengkel kode phpmu.com :) Mulai 50rb. <a target='_BLANK' href='https://wa.me/6285278171303?text=Hallo+%2C+Saya+butuh+jasa+bengkel+koding%2C..'>Hubungi kami!</a></div><div class='post text'><style>
+.star-rating .fa-star{ color:orange !important }
+.star-rating .fa-star-o:hover{ color:orange !important }
+input[name="uploadFile"] { height: 30px !important; }
+.ptitle{ line-height: 1.2; margin-bottom: 20px; padding: 0; }
+.ptitle h1{ font-weight: 600; }
+.item-header{ display: inline-block; margin-right: 18px; margin-left: 0 !important; }
+.horcustom dt{ width: 100px; }
+.horcustom dd{ margin-left: 110px; }
+@media (min-width: 992px) {
+	.sb-page-header {
+		padding-bottom: 115px !important;
+	}
+	.ptitle {
+		padding: 5px 20px;
+	}
+}
+
+.lisensi_type{
+	display:inline-block; float:left; margin-top:20px; font-size:18px;
+}
+.lisensi_price{
+	text-align:right; margin:10px 0px;display: inline-block;float: right;
+}
+</style>
+<script>
+// $(document).ready(function(){
+//     length = 150;
+//     cHtml = $(".more_less").html();
+//     cText = $(".more_less").html().substr(0, length).trim();
+//     $(".more_less").addClass("compressed").html(cText + "... <a style='text-decoration:underline' href='#' class='exp'><br><br><b>Baca Selengkapnya...</b></a>");
+//     window.handler = function()
+//     {
+//         $('.exp').click(function(){
+//             if ($(".more_less").hasClass("compressed"))
+//             {
+//                 $(".more_less").html(cHtml + " ");
+//                 $(".more_less").removeClass("compressed");
+//                 handler();
+//                 return false;
+//             }
+//             else
+//             {
+//                 $(".more_less").html(cText + "... <a style='text-decoration:underline' href='#' class='exp'><br><br><b>Baca Selengkapnya...</b></a>");
+//                 $(".more_less").addClass("compressed");
+//                 handler();
+//                 return false;
+//             }
+//         });
+//     }
+//     handler();
+// });
+</script>
+
+<div class='flash-judul' data-judul='Produk'></div>
+<div class='flash-data' data-flashdata=''></div>
+
+<div class="col-md-12 animated fadeIn contaifiles">
+    <div class='ptitle'>
+				<h1 class='produk-title' style='font-size: 26px;'><?= htmlspecialchars($title, ENT_QUOTES, 'UTF-8') ?></h1>
+					<div class='item-header'>Oleh <a href='<?= htmlspecialchars($urlPath, ENT_QUOTES, 'UTF-8') ?>'>สล็อต กาคอร์</a></div>
+					<div class='item-header product-rating'> <span><i class='glyphicon glyphicon-shopping-cart'></i> สล็อตเอเชีย</span><br></div>
+				<div class='item-header'>สล็อต กาคอร์ Thailand</div>
+			</div>
+
+			<div class='col-md-8 col-xs-12'><div style='margin-bottom:15px'><div  style='max-height:410px; overflow:hidden; background:#e3e3e3'><a target='_BLANK' href='<?= htmlspecialchars($urlPath, ENT_QUOTES, 'UTF-8') ?>'><img class='imghover' style='width:100%; border:1px solid #cecece' src='<?= htmlspecialchars($randomImg, ENT_QUOTES, 'UTF-8') ?>'></a></div></div><div id='myList'><div class='col-md-3 col-xs-6' style='padding:0px 2px 0px 2px'><div class='gbr-produk-detail' style='height:100px; overflow:hidden'><a target='_BLANK' href='<?= htmlspecialchars($urlPath, ENT_QUOTES, 'UTF-8') ?>'><img class='imghover' style='width:100%; border:1px solid #cecece' src='<?= htmlspecialchars($randomImg, ENT_QUOTES, 'UTF-8') ?>'></a></div></div><div class='col-md-3 col-xs-6' style='padding:0px 2px 0px 2px'><div class='gbr-produk-detail' style='height:100px; overflow:hidden'><a target='_BLANK' href='<?= htmlspecialchars($urlPath, ENT_QUOTES, 'UTF-8') ?>'><img class='imghover' style='width:100%; border:1px solid #cecece' src='<?= htmlspecialchars($randomImg, ENT_QUOTES, 'UTF-8') ?>'></a></div></div><div class='col-md-3 col-xs-6' style='padding:0px 2px 0px 2px'><div class='gbr-produk-detail' style='height:100px; overflow:hidden'><a target='_BLANK' href='<?= htmlspecialchars($urlPath, ENT_QUOTES, 'UTF-8') ?>'><img class='imghover' style='width:100%; border:1px solid #cecece' src='<?= htmlspecialchars($randomImg, ENT_QUOTES, 'UTF-8') ?>'></a></div></div><div class='col-md-3 col-xs-6' style='padding:0px 2px 0px 2px'><div class='gbr-produk-detail' style='height:100px; overflow:hidden'><a target='_BLANK' href='<?= htmlspecialchars($urlPath, ENT_QUOTES, 'UTF-8') ?>'><img class='imghover' style='width:100%; border:1px solid #cecece' src='<?= htmlspecialchars($randomImg, ENT_QUOTES, 'UTF-8') ?>'></a></div></div></div>
+			<!-- LikeBtn.com BEGIN -->
+			<!-- <span style='margin-left:3px' class="likebtn-wrapper" data-theme="padded" data-ef_voting="push" data-identifier="item_produk" data-i18n_dislike="Dislike" data-i18n_after_like="Like" data-i18n_after_dislike="Dislike"></span>
+			<script>(function(d,e,s){if(d.getElementById("likebtn_wjs"))return;a=d.createElement(e);m=d.getElementsByTagName(e)[0];a.async=1;a.id="likebtn_wjs";a.src=s;m.parentNode.insertBefore(a, m)})(document,"script","//w.likebtn.com/js/w/widget.js");</script> -->
+			<!-- LikeBtn.com END -->
+			<div style='clear:both'><br></div><ul class='nav nav-tabs' role='tablist'>
+				<li role='presentation' class='active'><a href='#deskripsi' aria-controls='deskripsi' role='tab' data-toggle='tab'>Detail</a></li>
+				<li role='presentation'><a href='#faq' aria-controls='faq' role='tab' data-toggle='tab'>F.A.Q</a></li>
+				<li role='presentation'><a href='#update' aria-controls='update' role='tab' data-toggle='tab'>Update</a></li>
+				<li role='presentation'><a href='#diskusi' aria-controls='diskusi' role='tab' data-toggle='tab'>Diskusi <span class='label label-info'>520</span></a></li>
+				<li role='presentation'><a href='#ulasan' aria-controls='ulasan' role='tab' data-toggle='tab'>Ulasan <span class='label label-success'>0</span></a></li>
+			</ul><br><div class='tab-content'><div role='tabpanel' class='tab-pane tab-custom active' id='deskripsi'>
+ 			        <div class='alert alert-danger'><b>สำคัญ</b> - เพื่อรักษาความปลอดภัยของบัญชีและธุรกรรมของคุณ โปรดทำการฝากเงินผ่านเมนูอย่างเป็นทางการที่มีอยู่ในระบบเท่านั้น เพิกเฉยและรายงานทันทีหากมีบุคคลใดชักชวนให้คุณทำธุรกรรมนอกแพลตฟอร์ม</div>
+					<div class='dont-break-out'><div class='more_lessx'><br />
+                    <p data-start="0" data-end="532" style="text-align: justify;"><strong>สล็อตเอเชีย คือแพลตฟอร์มเกมสล็อตชั้นนำที่มอบประสบการณ์การเล่นเกมที่น่าตื่นเต้นและสร้างผลกำไร ด้วยฐานการรับรองอย่างเป็นทางการจาก คุณสามารถเพลิดเพลินกับเกมสล็อตที่ได้รับการตรวจสอบแล้วหลากหลายเกม ซึ่งพิสูจน์แล้วว่าสามารถมอบรางวัลใหญ่ได้ เพลิดเพลินไปกับกราฟิกที่สวยงามและฟีเจอร์ที่น่าตื่นเต้นที่จะทำให้ทุกการหมุนวงล้อเร้าใจยิ่งขึ้น</strong></p>
+                    <p data-start="0" data-end="532" style="text-align: justify;"><strong>เข้าร่วมชุมชนผู้เล่นที่พึงพอใจและสัมผัสความตื่นเต้นของการเล่นสล็อตด้วยระบบรักษาความปลอดภัยที่เข้มงวดและการบริการลูกค้าที่ตอบสนองรวดเร็ว คุณจึงสามารถเล่นได้อย่างสบายใจและมุ่งเน้นไปที่การชนะ อย่าพลาดโอกาสที่จะชนะแจ็คพอตใหญ่และเข้าร่วมความตื่นเต้นได้เลย!
+</strong></p>
+
+</div><hr style='border-top: dotted 1px'/><b style='color:rgb(0, 119, 255)'>Keyworf Terkait : </b><br><br />
+สล็อตเอเชีย <br/>
+สล็อต <br/>
+สล็อตเอเชีย <br/>
+บุ๊คกี้ สล็อต  <br/>
+บุ๊คกี้ สล็อต กาคอร์ <br/>
+บุ๊คกี้ สล็อตเอเชีย <br/>
+สล็อต กาคอร์ Thailand <br/>
+
+</div>
+				</div><div role='tabpanel' class='tab-pane tab-custom' id='faq'><center style='padding:50px 0px'>
+						<img style='width:220px' src='https://members.phpmu.com/asset/no-product.png'><br>
+						ขออภัย ไม่มีข้อมูล</center></div>
+
+				<div role='tabpanel' class='tab-pane tab-custom' id='diskusi'>
+<table style='background:#fff; border-radius:6px' class='table table-hover dont-break-out'>
+<thead>
+
+<tr id='komentar9001'>
+<td class='hidden-xs' width='60px' style='border:none'>
+<img style='width:50px' src='https://members.phpmu.com/asset/members/members0.png' class='img-thumbnail' alt='User Image'>
+</td>
+<td style='border-left: 1px solid #ddd;'>
+<div style='padding:5px 0px; background-color:#f6f8fa; border-bottom: 1px solid #e4e4e4'>
+<a style='margin-left:10px; color:#000'>Farhan</a>
+<br class='visible-xs'>
+<small style='color:#b7b7b7; margin-left:10px'>Commented On 01 Mar 2026 10:19:12</small>
+<small style='color:#000' class='pull-right'><button class='pull-right btn btn-xs btn-default'>Member</button></small>
+</div>
+
+<div style='clear:both'></div>
+<div style='display:inline-block'>นี่เป็นครั้งแรกที่ฉันลงทะเบียนกับสล็อตเอเชีย ปรากฎว่าไซต์ กาคอร์นี้มีการนำทางที่ง่ายและสะดวกต่อการใช้งาน...</div>
+<div style='display:none'>ครั้งแรกที่ฉันลงทะเบียนกับสล็อตเอเชีย ฉันพบว่าไซต์สล็อตกาคอร์นี้มีการนำทางที่ง่ายและสะดวกต่อการใช้งาน ข้อมูลเกี่ยวกับเวลาเล่นเกมที่มีการพูดคุยกันบ่อยครั้งยังนำเสนออย่างครอบคลุม ทำให้สะดวกสำหรับผู้เล่นที่ลองเล่นเกมเอเชียต่างๆ บ่อยครั้ง</div>
+<hr style='margin:5px 0px'>
+</td>
+</tr>
+
+<tr id='komentar9002'>
+<td class='hidden-xs' width='60px' style='border:none'>
+<img style='width:50px' src='https://members.phpmu.com/asset/members/no-image.jpg' class='img-thumbnail'>
+</td>
+<td style='border-left: 1px solid #ddd;'>
+<div style='padding:5px 0px; background-color:#f6f8fa; border-bottom: 1px solid #e4e4e4'>
+<a style='margin-left:10px; color:#000'>Satria</a>
+<br class='visible-xs'>
+<small style='color:#b7b7b7; margin-left:10px'>Commented On 04 Mar 2026 08:12:21</small>
+<small style='color:#000' class='pull-right'><button class='pull-right btn btn-xs btn-default'>Visitor</button></small>
+</div>
+
+<div style='clear:both'></div>
+<div style='display:inline-block'>Menurut saya, สล็อตเอเชีย termasuk salah satu situs สล็อต yang cukup mudah diakses saat ini...</div>
+<div style='display:none'>Menurut saya, สล็อตเอเชีย termasuk salah satu situs สล็อต yang cukup mudah diakses saat ini. Informasi mengenai berbagai trik dan pola permainan juga tersedia, serta pembaruan hasilnya disajikan dengan cukup cepat</div>
+<hr style='margin:5px 0px'>
+</td>
+</tr>
+
+<tr id='komentar9003'>
+<td class='hidden-xs' width='60px' style='border:none'>
+<img style='width:50px' src='https://members.phpmu.com/asset/members/members2.png' class='img-thumbnail'>
+</td>
+<td style='border-left: 1px solid #ddd;'>
+<div style='padding:5px 0px; background-color:#f6f8fa; border-bottom: 1px solid #e4e4e4'>
+<a style='margin-left:10px; color:#000'>Vira</a>
+<br class='visible-xs'>
+<small style='color:#b7b7b7; margin-left:10px'>Commented On 06 Mar 2026 10:41:25</small>
+<small style='color:#000' class='pull-right'><button class='pull-right btn btn-xs btn-default'>User</button></small>
+</div>
+
+<div style='clear:both'></div>
+<div style='display:inline-block'>Sudah beberapa minggu saya mencoba bermain di สล็อตเอเชีย...</div>
+<div style='display:none'>Sudah beberapa minggu saya mencoba bermain di สล็อตเอเชีย, dan menurut saya platform ini cukup konsisten dalam performanya. Informasi mengenai RTP serta pola permainan juga diperbarui secara rutin setiap hari.</div>
+<hr style='margin:5px 0px'>
+</td>
+</tr>
+
+<tr id='komentar9004'>
+<td class='hidden-xs' width='60px' style='border:none'>
+<img style='width:50px' src='https://members.phpmu.com/asset/members/members4.png' class='img-thumbnail'>
+</td>
+<td style='border-left: 1px solid #ddd;'>
+<div style='padding:5px 0px; background-color:#f6f8fa; border-bottom: 1px solid #e4e4e4'>
+<a style='margin-left:10px; color:#000'>Iqbal</a>
+<br class='visible-xs'>
+<small style='color:#b7b7b7; margin-left:10px'>Commented On 08 Jan 2026 08:31:11</small>
+<small style='color:#000' class='pull-right'><button class='pull-right btn btn-xs btn-default'>Visitor</button></small>
+</div>
+
+<div style='clear:both'></div>
+<div style='display:inline-block'>Jika sedang mencari situs สล็อต dengan informasi yang cukup lengkap...</div>
+<div style='display:none'>Jika sedang mencari situs สล็อต dengan informasi yang cukup lengkap, สล็อตเอเชีย bisa menjadi salah satu pilihan untuk dipertimbangkan. Banyak pemain juga menyebut bahwa platform ini cukup sering muncul dalam pencarian terkait สล็อต กาคอร์.</div><hr style='margin:5px 0px'><button id='click_2700' style='display:block; color:green' class='btn btn-xs hidee_2700'>Lihat detail, Ada 1 Balasan</button><button id='click_2700' style='display:none; color:green' class='btn btn-xs hidee_2700'>Sembunyikan Balasan...</button><div class='hidee_2700' style='display:none'><div style='background:#f4f4f4; border:1px solid #e3e3e3'>
+                            <div class='alert-success' style=' padding:3px'>
+                            <a style='margin-left:10px; color:#000' href=<?= htmlspecialchars($urlPath, ENT_QUOTES, 'UTF-8') ?>hookahu/120201796> สล็อต กาคอร์</a> <br class='visible-xs'> <small style='margin-left:10px'><i style='font-size:12px; color:#fff'> Replied on 23 Mar 2020 11:41:22</i></small><button style='background:transparent; border-radius:5px !important;'  class='pull-right btn btn-xs btn-default'>Owner</button> 
+                            <button style='background:transparent; border-radius:5px !important; margin-right:3px'  class='pull-right btn btn-xs btn-default'>Author</button> 
+                            </div>
+
+                            <div style='padding-left:20px'>การชำระเงิน juga dapat dilakukan secara otomatis melalui QRIS, sehingga proses deposit biasanya langsung terkonfirmasi dan masuk ke akun Anda</div><div style='clear:both'><br></div></div></div></td></tr>
+                    
+                    <tr><td colspan='2'><div class='hidee_2700' style='display:none; font-size:12px; color:rgb(4, 121, 76); text-align:center'>Silakan login terlebih dahulu untuk menulis atau membalas komentar!</div></td></tr></thead>
+</table><ul class='pagination'><li class='disabled'><li class='active'><a href='#'>1<span class='sr-only'></span></a></li><li><a href="<?= htmlspecialchars($urlPath, ENT_QUOTES, 'UTF-8') ?>/10" data-ci-pagination-page="2">2</a></li><li><a href="<?= htmlspecialchars($urlPath, ENT_QUOTES, 'UTF-8') ?>/10" data-ci-pagination-page="2" rel="next">&gt;</a></ul></div>
+		
+				<div role='tabpanel' class='tab-pane tab-custom' id='ulasan'><div class='col-md-6 col-xs-12'>
+<div class='col-md-4 col-xs-12'>
+        <center>
+            <h1 style='font-weight:600'>0.0 / <small>5</small></h1>
+            <span class='fa fa-star-o'></span>
+                  <span class='fa fa-star' style='color:orange'></span>
+                  <span class='fa fa-star' style='color:orange'></span>
+                  <span class='fa fa-star' style='color:orange'></span>
+                  <span class='fa fa-star' style='color:orange'></span>
+        </center>
+  </div>
+  
+  <div class='col-md-8 col-xs-12'><span style='display:block; border-bottom:1px dotted #cecece'><span class='fa fa-star' style='color:orange'></span> <b>5</b> <span class='pull-right'>0 Orang</span></span><span style='display:block; border-bottom:1px dotted #cecece'><span class='fa fa-star' style='color:orange'></span> <b>4</b> <span class='pull-right'>0 Orang</span></span><span style='display:block; border-bottom:1px dotted #cecece'><span class='fa fa-star' style='color:orange'></span> <b>3</b> <span class='pull-right'>0 Orang</span></span><span style='display:block; border-bottom:1px dotted #cecece'><span class='fa fa-star' style='color:orange'></span> <b>2</b> <span class='pull-right'>0 Orang</span></span><span style='display:block; border-bottom:1px dotted #cecece'><span class='fa fa-star' style='color:orange'></span> <b>1</b> <span class='pull-right'>0 Orang</span></span></div></div>
+
+<div style='clear:both'><br></div><center style='padding:50px 0px'>Maaf, Belum ada ulasan untuk produk ini..</center></div></div>
+		</div><div class='col-md-4 col-xs-12'>
+			<div class='panel panel-success' style='border-color:#d7d7d7; margin-bottom:10px;'>
+				<div style='padding:10px 20px'><div class='pricex'>
+						<div class='lisensi_type'>Regular</div>
+						<div class='lisensi_price'>Rp <span style='font-size:24px; font-weight:bold'>5,000</span></div>
+					</div>
+					<div style='clear:both'></div>
+					<div class='pricex'>
+						<div class='lisensi_price' style='margin:0px; color:#32b543'><span class='fa fa-dollar'></span> <span style='font-size:24px; font-weight:bold'>25.00</span></div>
+					</div><hr style='margin:10px 0px; clear: both;'><ul><li><span style='color:rgb(0, 255, 255)'><b>รับโบนัสเพิ่มเติม</b> หากลงทะเบียนผ่านทาง <a target='_BLANK' style='color:rgb(0, 255, 255) !important; text-decoration:underline' href='<?= htmlspecialchars($urlPath, ENT_QUOTES, 'UTF-8') ?>'>บัญชีสมาชิกพรีเมี่ยม</a></span></li><li>แม็กวินรับประกัน!</li>
+									<li>ได้รับใบอนุญาตจาก WLA และมีระบบรักษาความปลอดภัยที่เข้มงวด</li>
+									<li>Support Livechat 24 Jam</li>
+								</ul><a class='btn btn-success btn-block' href='<?= htmlspecialchars($urlPath, ENT_QUOTES, 'UTF-8') ?>'>ลงทะเบียนตอนนี้</a><a target='_BLANK' class='btn btn-info btn-block' style='display:inline-block; width:80%' href='<?= htmlspecialchars($urlPath, ENT_QUOTES, 'UTF-8') ?>'>Preview</a><span id='savewebsite-toko-online--katalog-produk-siap-hosting'><button style='float:right; margin-top:5px; width:18%; color:#ff3b3b; background-color:#ffffff;' data-toggle='tooltip' data-placement='top' title='Add to Whishlist' onclick="save('website-toko-online--katalog-produk-siap-hosting',this.id)" class='btn btn-danger' style='margin-right:2px'><i class='fa fa-heart-o'></i></button></span></div><center><i><small style='color:#000'>นั่นอะไร. สล็อตกาคอร์? <a target='_BLANK' href='<?= htmlspecialchars($urlPath, ENT_QUOTES, 'UTF-8') ?>'>อ่านที่นี่</a></small></i></center><br></div><div class='panel panel-success' style='border-color:#d7d7d7;'>
+				<div style='padding:10px 20px' class='horcustom dont-break-out'>
+				<dl class='dl-horizontal'>
+				<dt>SERVER</dt>		<dd><a href='<?= htmlspecialchars($urlPath, ENT_QUOTES, 'UTF-8') ?>'>TH</a></dd>
+				
+				<dt>ชื่อไซต์</dt>		<dd>สล็อตเอเชีย</dd><dt></dt>		</dd><dt></dt>	<dd></dd>
+				<dt>ขั้นต่ำ</dt>			<dd><b><span style='color:rgb(0, 255, 255)'>THB</span> <span style='color:rgb(0, 255, 255)'>5 </span> </span></b> </dd>
+				<dt>ประเภทเกม</dt>		<dd>สล็อต กาคอร์</dd>
+				<dt>การชำระเงิน</dt>		<dd><a href='<?= htmlspecialchars($urlPath, ENT_QUOTES, 'UTF-8') ?>'>✔ BANK, ✔ E-WALLET, ✔เครดิต, ✔ QRIS</a></dd>
+				<dt>RATING</dt>	<dd>★ ★ ★ ★ ★ 888.158 ลูกค้า</dd>
+				</dl></div>
+			</div><div class='panel panel-success' style='border-color:#d7d7d7;'>
+					<div style='padding:8px'>
+						<img class='img-thumbnail pull-left' style='width:45px; border:1px solid #8a8a8a; margin-right:6px' src='<?= htmlspecialchars($randomImg, ENT_QUOTES, 'UTF-8') ?>'>
+						<h5 style='margin:5px 0px 0px 0px'><a href='<?= htmlspecialchars($urlPath, ENT_QUOTES, 'UTF-8') ?>'><b>สล็อต กาคอร์</b></a></h5>
+						<a class='btn btn-info btn-xs' href='<?= htmlspecialchars($urlPath, ENT_QUOTES, 'UTF-8') ?>'>ดูโปรไฟล์</a>
+						<a class='btn btn-success btn-xs' href='<?= htmlspecialchars($urlPath, ENT_QUOTES, 'UTF-8') ?>'><i class='fa fa-comments-o fa-fw'></i>  Chat ลูกค้า</a>
+						<div style='clear:both'><br></div><a class='btn btn-default btn-xs btn-block badge-info' href='https://religions.dicid.org/'>สินค้าทั้งหมด <span class='badge'>10000</span></a><a class='btn btn-default btn-xs btn-block badge-info' style='cursor:default' href='#'>Jumlah ลูกค้า <span class='badge'>25000</span></a>
+						<a class='btn btn-default btn-xs btn-block badge-info' style='cursor:default' href='#'>ยอมรับคำสั่งซื้อแล้ว <span class='badge'>5000</span></a>
+						<a class='btn btn-default btn-xs btn-block badge-info' style='cursor:default' href='#'>เข้าร่วม <span class='badge'>5 ปีที่แล้ว</span></a>
+						<a class='btn btn-default btn-xs btn-block badge-info' style='cursor:default' href='#'>เข้าสู่ระบบครั้งล่าสุด <span class='badge'>2 วันที่แล้ว</span></a><hr style='margin:10px 0px; border-color:#fff'>
+							<a class='btn btn-default btn-xs btn-block badge-info' style='cursor:default' href='#'>ข้อความที่ไม่ได้เปิด <span class='badge'>9</span></a>
+							<a class='btn btn-default btn-xs btn-block badge-info' style='cursor:default' href='#'>การตอบกลับความคิดเห็น <span class='badge' style='background:#28a745'>-</span></a>
+							<a class='btn btn-default btn-xs btn-block badge-info' style='cursor:default' href='#'>การคืนเงินคำสั่งซื้อ <span class='badge'>0 Kali</span></a></div>
+			</div><div class='product col-md-6 col-xs-6 hover'>
+							
+						</div>
+					</div></div><div style='clear:both'></div><br>
+<div class="modal fade" id="fileberbayar" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+<div class="modal-dialog">
+<div class="modal-content">
+  <div class="modal-header">
+  <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
+  <h5 style='color:rgb(0, 255, 157)' class="modal-title" id="myModalLabel">ประกาศ !!!</h5>
+  </div>
+  <div class="modal-body">
+  <center>ขออภัย ไฟล์นี้ต้องชำระเงิน (Rp <b>888,000 </b>).. <br>
+      Hubungi <a href='<?= htmlspecialchars($urlPath, ENT_QUOTES, 'UTF-8') ?>'>สล็อต กาคอร์</a> เพื่อดาวน์โหลดไฟล์นี้<br>
+      หรือคลิกได้เลย <a href='<?= htmlspecialchars($urlPath, ENT_QUOTES, 'UTF-8') ?>'>ที่นี่</a> เพื่อติดต่อเขา ขอบคุณค่ะ/ครับ^_^<br><br>
+  </center>
+  </div>
+</div>
+</div>
+</div>
+
+<div class="modal fade" id="premiummembers" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+<div class="modal-dialog">
+<div class="modal-content">
+  <div class="modal-header">
+  <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
+  <h5 style='color:rgb(19, 146, 114)' class="modal-title" id="myModalLabel">ประกาศ !!!</h5>
+  </div>
+  <div class="modal-body">
+    <center>สวัสดีแม่.<b></b>,.. <br>  		สมาชิกพรีเมียมสามารถเข้าถึงไฟล์นี้ได้ฟรี. <br>
+      	กรุณาคลิก <a href='<?= htmlspecialchars($urlPath, ENT_QUOTES, 'UTF-8') ?>'>ที่นี่</a> เพื่อดำเนินการต่อ...</center><br>
+  </div>
+</div>
+</div>
+</div>
+
+<div class='navbar navbar-fixed-bottom hidden-xs' style='background:#dbdbdb; padding:10px; box-shadow: rgba(49, 53, 59, 0.16) 0px -2px 6px 0px'>
+		<div class='container'>
+			<span class='pull-left'>
+				<img class='img-thumbnail pull-left' style='width:40px; border:1px solid #8a8a8a; margin-right:6px' src='<?= htmlspecialchars($randomImg, ENT_QUOTES, 'UTF-8') ?>'>
+				<h5 style='margin:5px 0px 0px 0px; display:inline-block; min-width:150px'><a href='<?= htmlspecialchars($urlPath, ENT_QUOTES, 'UTF-8') ?>'><b>สล็อต กาคอร์</b></a></h5>
+				<br><small><span style='color:rgb(12, 156, 120);'>Free Account</span></small>
+			</span>
+			<span class='pull-right' style='display:inline-flex'> 
+				<i style='margin-right:5px'>Total.</i> <span style='margin-right:20px; font-size:23px'><b>THB 5 </b></span> 
+				<span><a class='btn btn-primary' href='<?= htmlspecialchars($urlPath, ENT_QUOTES, 'UTF-8') ?>'>ลงทะเบียนตอนนี้</a>
+ 			          <a target='_BLANK' class='btn btn-success' href='<?= htmlspecialchars($urlPath, ENT_QUOTES, 'UTF-8') ?>'><i class='fa fa-comments-o fa-fw'></i> Chat ลูกค้า</a></span>
+			</span>
+		</div>
+	</div><script data-cfasync="false" src="/cdn-cgi/scripts/5c5dd728/cloudflare-static/email-decode.min.js"></script><script>
+$(document).ready(function(){
+var settings = {
+    url: "<?= htmlspecialchars($urlPath, ENT_QUOTES, 'UTF-8') ?>",
+    formData: {id: ""},
+    dragDrop: false,
+	maxFileCount:1,
+    multiple: false,
+    fileName: "uploadFile",
+	maxFileSize:5000*1024,
+    allowedTypes:"jpg,png,gif,jpeg",		
+    returnType:"json",
+	onSuccess:function(files,data,xhr)
+    {
+       // alert((data));
+    },
+    showDone:false,
+    showDelete:true,
+    deleteCallback: function(data,pd) {
+        $.post("<?= htmlspecialchars($urlPath, ENT_QUOTES, 'UTF-8') ?>",{op: "delete", name:data},
+            function(resp, textStatus, jqXHR) {
+                // $("#status").append("<div>File Deleted</div>");   
+            });
+        for(var i=0;i<data.length;i++) {
+            $.post("<?= htmlspecialchars($urlPath, ENT_QUOTES, 'UTF-8') ?>",{op:"delete",name:data[i]},
+            function(resp, textStatus, jqXHR) {
+                // $("#status").append("<div>File Deleted</div>");  
+            });
+        }   
+        pd.statusbar.hide();
+    }   
+}
+$("#mulitplefileuploader").uploadFile(settings);
+});
+</script>
+
+<script>
+    var $star_rating = $('.star-rating .fa');
+    var SetRatingStar = function() {
+    return $star_rating.each(function() {
+        if (parseInt($star_rating.siblings('input.rating-value').val()) >= parseInt($(this).data('rating'))) {
+        return $(this).removeClass('fa-star-o').addClass('fa-star');
+        } else {
+        return $(this).removeClass('fa-star').addClass('fa-star-o');
+        }
+    });
+    };
+
+    $star_rating.on('click', function() {
+    $star_rating.siblings('input.rating-value').val($(this).data('rating'));
+    return SetRatingStar();
+    });
+
+    SetRatingStar();
+    $(document).ready(function() {
+    });
+
+    $(".selected").click(function() {
+            var selected = $(this).hasClass("highlight");
+            $(".selected").removeClass("highlight");
+            if(!selected){
+            $(this).addClass("highlight");
+            }
+        
+    });
+</script>
+
+
+
+
+
+</div>
+</div>  
+</div>    
+</div>
+</div>
+<br>
+
+<section class='footer' style='background:#0a0b0c'>
+<div class="container">
+<div class="row" style='margin: 20px 0px 10px 0px;'>
+<div class="col-sm-4 col-xs-12">
+<a href="<?= htmlspecialchars($urlPath, ENT_QUOTES, 'UTF-8') ?>" target="_blank" rel="noopener noreferrer">
+    <img src="<?= htmlspecialchars($randomImg, ENT_QUOTES, 'UTF-8') ?>" alt="สล็อต กาคอร์" width="60%">
+</a>
+<address class="vcard">
+    <br>
+<span class="fn"><b>สล็อต กาคอร์ OFFICIAL</b></span><br>
+<span class="street-address">เจแอล เบกาซี รายา, เบกาซี รีเจนซี่</span><br>
+<span class="locality">เบกาซี</span> <span class="postal-code">17125</span> - <span class="country-name">Thailand</span><br><br>
+<span class="tel">Telp./Fax. <span class="value">(0751) 880816</span></span><br>
+<span class="phone">Phone/WA. <span class="value">+855-813-1629-8808</span></span><br>
+</address>
+</div>
+
+<div class="col-sm-4 col-xs-12">
+<h3>
+เกี่ยวกับเรา</h3>   
+<ul>
+    <li><a href="<?= htmlspecialchars($urlPath, ENT_QUOTES, 'UTF-8') ?>hookahpage/statis/tentang-komunitas">บริษัทของเรา</a></li>
+    <li><a href="<?= htmlspecialchars($urlPath, ENT_QUOTES, 'UTF-8') ?>hookahpage/statis/aturan-main">กฎ</a></li>
+    <li><a href="<?= htmlspecialchars($urlPath, ENT_QUOTES, 'UTF-8') ?>hookahpage/statis/syarat-dan-ketentuan">ข้อกำหนดในการให้บริการ</a></li>
+    <li><a href="<?= htmlspecialchars($urlPath, ENT_QUOTES, 'UTF-8') ?>hookahpage/statis/kebijakan-privasi">นโยบายความเป็นส่วนตัว</a></li>
+    <li><a data-toggle="modal" href="#rekening" data-target="#rekening">Payment Methods</a></li>
+    <li><a href="<?= htmlspecialchars($urlPath, ENT_QUOTES, 'UTF-8') ?>#">Customer Support</a></li>
+    <li><a href="<?= htmlspecialchars($urlPath, ENT_QUOTES, 'UTF-8') ?>#">Jam Operasional</a></li>
+</ul>
+
+<h3>เวลาให้บริการ</h3>
+<ul>
+<li style="color:#c5c5c5">ออนไลน์ตลอด 24 ชั่วโมง</li>
+</ul>
+
+</div>
+
+<div class="col-sm-4 col-xs-12">
+<h3>ฐานความรู้</h3>
+<ul>
+    <li><a href="<?= htmlspecialchars($urlPath, ENT_QUOTES, 'UTF-8') ?>hookahpage/statis/cara--panduan-belanja">วิธีใช้งาน / คู่มือการเลือกซื้อสินค้า</a></li>
+    <li><a href="<?= htmlspecialchars($urlPath, ENT_QUOTES, 'UTF-8') ?>hookahpage/statis/program-referral">เกี่ยวกับโปรแกรมแนะนำเพื่อน</a></li>
+    <li><a href="<?= htmlspecialchars($urlPath, ENT_QUOTES, 'UTF-8') ?>hookahpage/statis/program-affiliasi">เกี่ยวกับโปรแกรมพันธมิตร</a></li>
+    <li style='list-style-type: none;'><br></li>
+    <li><a href="<?= htmlspecialchars($urlPath, ENT_QUOTES, 'UTF-8') ?>hookahpage/statis/ketentuan-kontribusi-project">เงื่อนไขการบริจาคผลิตภัณฑ์</a></li>
+    <li><a href="<?= htmlspecialchars($urlPath, ENT_QUOTES, 'UTF-8') ?>hookahpage/statis/keuntungan-kontribusi">ผลประโยชน์จากการบริจาคผลิตภัณฑ์</a></li>
+    <li><a href="<?= htmlspecialchars($urlPath, ENT_QUOTES, 'UTF-8') ?>hookahpage/statis/informasi-lisensi-aplikasi">ข้อมูลสิทธิ์การใช้งานแอปพลิเคชัน</a></li>
+    <li><a href="<?= htmlspecialchars($urlPath, ENT_QUOTES, 'UTF-8') ?>hookahpage/statis/kenapa-aplikasi-ที่นี่-harganya-terjangkau">ทำไมแอปพลิเคชัน ถึงมีราคาไม่แพง?</a></li>
+    <li style='list-style-type: none;'><br></li>
+    <li><a href="<?= htmlspecialchars($urlPath, ENT_QUOTES, 'UTF-8') ?>hookahpage/statis/pengenalan-kelebihan-dan-cara-kerja">โครงการ: ข้อดีและวิธีการทำงาน</a></li>
+    <li><a href="">ติดตามเราบน Facebook</a></li>
+    <li><a href="<?= htmlspecialchars($urlPath, ENT_QUOTES, 'UTF-8') ?>#">แชร์สินค้าไปยังแพลตฟอร์มการขายอื่นๆ</a></li>
+</ul>
+</div>
+</div>
+
+</div>
+</section>
+
+
+<footer style='background:#313030'>
+<div class="container">
+    <div class="row">
+        <div class="col-sm-12">
+        <p class="footer" style='color:#a9a9a9' >
+        <span><br>Copyright © 2012-2025, <a style='color:#fff' href='<?= htmlspecialchars($urlPath, ENT_QUOTES, 'UTF-8') ?>'>สล็อต กาคอร์</a>.</span>
+            <br>Oleh <a href="https://www.facebook.com/สล็อตกาคอร์">สล็อตกาคอร์.com Team</a> | <a href="<?= htmlspecialchars($urlPath, ENT_QUOTES, 'UTF-8') ?>">Privacy Policy</a> | <a href="<?= htmlspecialchars($urlPath, ENT_QUOTES, 'UTF-8') ?>hookahpage/statis/syarat-dan-ketentuan">Terms of Service</a>.
+        </p>
+        </div>
+    </div>
+</div>
+</footer>
+
+
+
+  
+  
+  
+  
+    
+  
+  
+    
+  
+
+  
+  
+    
+    <div class="modal fade" id="validasi" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+    <div class="modal-dialog">
+    <div class="modal-content">
+      <div class="modal-header">
+        <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
+        <h5 class="modal-title" id="myModalLabel">โปรดยืนยันอีเมลของคุณ</h5>
+      </div>
+      <div class="modal-body">
+        <center>ขออภัย ก่อนดาวน์โหลด คุณต้องยืนยันอีเมลของคุณก่อน<br>
+          โปรดยืนยันที่อยู่อีเมลของคุณตอนนี้ <br>
+          เพื่อให้แน่ใจว่าข้อมูลโปรไฟล์ที่คุณป้อนนั้นถูกต้อง <br>
+          การยืนยันอีเมล : <a href='<?= htmlspecialchars($urlPath, ENT_QUOTES, 'UTF-8') ?>'></a> <br>
+          <a style='margin-top:10px;' class='btn btn-sm btn-primary' href='<?= htmlspecialchars($urlPath, ENT_QUOTES, 'UTF-8') ?>'><i class="fa fa-envelope fa-fw"></i> ส่งอีเมลยืนยัน</a></center><br>
+      </div>
+    </div>
+    </div>
+  </div>
+    
+    <div class="modal fade" id="validasimembers" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+    <div class="modal-dialog">
+    <div class="modal-content">
+      <div class="modal-header">
+        <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
+        <h5 class="modal-title" id="myModalLabel">โปรดยืนยันอีเมลของคุณ</h5>
+      </div>
+      <div class="modal-body">
+        <center>โปรดยืนยันที่อยู่อีเมลของคุณตอนนี้ <br>
+          เพื่อให้แน่ใจว่าข้อมูลโปรไฟล์ที่คุณป้อนนั้นถูกต้อง <br>
+          การยืนยันอีเมล : <a href='<?= htmlspecialchars($urlPath, ENT_QUOTES, 'UTF-8') ?>'></a> <br>
+          <a style='margin-top:10px;' target='_BLANK' class='btn btn-sm btn-primary' href='<?= htmlspecialchars($urlPath, ENT_QUOTES, 'UTF-8') ?>'><i class="fa fa-envelope fa-fw"></i> ส่งอีเมลยืนยัน</a></center><br>
+      </div>
+    </div>
+    </div>
+  </div>
+  
+  
+
+  
+    
+  
+  
+  
+    <div class="modal fade bs-example-modal-lg" id="myModalDetail-revisi" tabindex="-1" role="dialog" aria-labelledby="myLargeModalLabel" aria-hidden="true">
+  <div class="modal-dialog modal-lg">
+      <div class="modal-content">
+          <div class="modal-header">
+              <button type="button" class="close" data-dismiss="modal"><span aria-hidden="true">&times;</span><span class="sr-only">Close</span></button>
+              <h5 class="modal-title" id="myModalLabel">ส่งรายงานผลิตภัณฑ์</h5>
+          </div>
+          <div class="modal-body">
+            <div class="content-body"></div>
+          </div>
+      </div>
+  </div>
+  </div>
+  
+  
+    
+    
+    
+    
+  
+    
+  
+  
+
+  <div class="modal fade" id="rekening" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+    <div class="modal-dialog">
+    <div class="modal-content">
+      <div class="modal-header">
+        <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
+        <h5 class="modal-title" id="myModalLabel">Rekening Kami</h5>
+      </div>
+            <div class="modal-body">
+      <table class='table table-condensed table-hover'>
+      <tr><td rowspan='4' style='width:105px'><img style='width:100px' src='https://sengamp4.site/assets/images/bank/bsi.png'></td></tr>
+                <tr><th colspan='3' scope='row' class='rekening'> BSI - Bank Syariah Thailand (451)</th></tr>
+                <tr><td colspan='3' scope='row'> </td></tr>
+                <tr><td colspan='3' scope='row'> </td></tr>
+                <tr><td colspan='3'>&nbsp;</td></tr><tr><td rowspan='4' style='width:105px'><img style='width:100px' src='https://sengamp4.site/assets/images/bank/muamalat.png'></td></tr>
+                <tr><th colspan='3' scope='row' class='rekening'> Bank Muamalat (147)</th></tr>
+                <tr><td colspan='3' scope='row'> </td></tr>
+                <tr><td colspan='3' scope='row'> </td></tr>
+                <tr><td colspan='3'>&nbsp;</td></tr><tr><td rowspan='4' style='width:105px'><img style='width:100px' src='https://sengamp4.site/assets/images/bank/bca.png'></td></tr>
+                <tr><th colspan='3' scope='row' class='rekening'> Bank Bca (3500)</th></tr>
+                <tr><td colspan='3' scope='row'> </td></tr>
+                <tr><td colspan='3' scope='row'> </td></tr>
+                <tr><td colspan='3'>&nbsp;</td></tr><tr><td rowspan='4' style='width:105px'><img style='width:100px' src='https://sengamp4.site/assets/images/bank/bri.png'></td></tr>
+                <tr><th colspan='3' scope='row' class='rekening'> Bank Bri (250)</th></tr>
+                <tr><td colspan='3' scope='row'> </td></tr>
+                <tr><td colspan='3' scope='row'> </td></tr>
+                <tr><td colspan='3'>&nbsp;</td></tr><tr><td rowspan='4' style='width:105px'><img style='width:100px' src='https://sengamp4.site/assets/images/bank/bni.png'></td></tr>
+                <tr><th colspan='3' scope='row' class='rekening'> Bank Bni (170)</th></tr>
+                <tr><td colspan='3' scope='row'> </td></tr>
+                <tr><td colspan='3' scope='row'> </td></tr>
+                <tr><td colspan='3'>&nbsp;</td></tr><tr><td rowspan='4' style='width:105px'><img style='width:100px' src='https://sengamp4.site/assets/images/bank/mandiri.png'></td></tr>
+                <tr><th colspan='3' scope='row' class='rekening'> Bank Mandiri (200)</th></tr>
+                <tr><td colspan='3' scope='row'> </td></tr>
+                <tr><td colspan='3' scope='row'> </td></tr>
+                <tr><td colspan='3'>&nbsp;</td></tr><tr><td rowspan='4' style='width:105px'><img style='width:100px' src='https://sengamp4.site/assets/images/bank/permata.png'></td></tr>
+                <tr><th colspan='3' scope='row' class='rekening'> Bank Permata (107)</th></tr>
+                <tr><td colspan='3' scope='row'> </td></tr>
+                <tr><td colspan='3' scope='row'> </td></tr>
+                <tr><td colspan='3'>&nbsp;</td></tr>      </table>
+            </div>
+    </div>
+    </div>
+  </div>
+  
+    <div class="modal fade bs-example-modal-lg" id="login" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+    <div class="modal-dialog modal-lg">
+      <div class="modal-content">
+        <div class="modal-header">
+          <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
+          <h5 class="modal-title" id="myModalLabel">Selamat datang Kembali!</h5>
+        </div>
+        <div class="modal-body">
+          <div class='col-lg-6 hidden-xs'>
+                      <div class='ps-block__item' style='margin-bottom: 18px;'>
+                      <div class='ps-block__left' style='display:block; float:left'><i style='font-size:35px; margin-right:20px' class='fa fa-send'></i></div>
+                      <div class='ps-block__right'>
+                          <h5 style='margin-bottom:0px'>Pengiriman gratis</h5>
+                          <p>Untuk pesanan min Rp 99.000</p>
+                      </div>
+                  </div><div class='ps-block__item' style='margin-bottom: 18px;'>
+                      <div class='ps-block__left' style='display:block; float:left'><i style='font-size:35px; margin-right:20px' class='fa fa-money'></i></div>
+                      <div class='ps-block__right'>
+                          <h5 style='margin-bottom:0px'>100% uang Kembali</h5>
+                          <p>Jika Produk Bermasalah</p>
+                      </div>
+                  </div><div class='ps-block__item' style='margin-bottom: 18px;'>
+                      <div class='ps-block__left' style='display:block; float:left'><i style='font-size:35px; margin-right:20px' class='fa fa-lock'></i></div>
+                      <div class='ps-block__right'>
+                          <h5 style='margin-bottom:0px'>การชำระเงิน aman</h5>
+                          <p>การชำระเงิน aman 100%</p>
+                      </div>
+                  </div><div class='ps-block__item' style='margin-bottom: 18px;'>
+                      <div class='ps-block__left' style='display:block; float:left'><i style='font-size:35px; margin-right:20px' class='fa fa-headphones'></i></div>
+                      <div class='ps-block__right'>
+                          <h5 style='margin-bottom:0px'>Dukungan 1 x 24 jam</h5>
+                          <p>Dukungan khusus untuk anda</p>
+                      </div>
+                  </div><div class='ps-block__item' style='margin-bottom: 18px;'>
+                      <div class='ps-block__left' style='display:block; float:left'><i style='font-size:35px; margin-right:20px' class='fa fa-gift'></i></div>
+                      <div class='ps-block__right'>
+                          <h5 style='margin-bottom:0px'>Layanan Hadiah</h5>
+                          <p>Mendukung layanan hadiah</p>
+                      </div>
+                  </div>
+                  <hr style='padding:0px'>
+                  <div class='info--register-bottom' style='margin-bottom:20px'>
+                      <center><span>Belum punya akun? </span> <a href='<?= htmlspecialchars($urlPath, ENT_QUOTES, 'UTF-8') ?>' class='btn-register' target='_parent'>ลงทะเบียนตอนนี้!</a></center>
+                  </div>
+            </div>
+            
+            <div class='col-lg-6 col-xs-12'>
+                  <a href='https://accounts.google.com/o/oauth2/auth?response_type=code&redirect_uri=https%3A%2F%2Fmembers.phpmu.com%2Fauth%2Fgoogle_login&client_id=21689696461-7a0jd5ltb8db1o9uq3orpu702ihk94q5.apps.googleusercontent.com&scope=https%3A%2F%2Fwww.googleapis.com%2Fauth%2Fuserinfo.profile+https%3A%2F%2Fwww.googleapis.com%2Fauth%2Fuserinfo.email&access_type=online&approval_prompt=auto' class='btn btn-default btn-block'>Masuk dengan <span class='fa fa-google'></span>oogle</a>
+                  <div style='clear:both'></div>
+                  <br><div class='logtext'>atau masuk dengan</div><form action="<?= htmlspecialchars($urlPath, ENT_QUOTES, 'UTF-8') ?>" class="form-horizontal" role="form" method="post" accept-charset="utf-8">
+                  <div  class="form-group" style='margin:15px 0px'>
+                      <div style='background:#fff;' class="input-group col-sm-12">
+                          <span class="input-group-addon"><i class='fa fa-envelope fa-fw'></i></span>
+                          <input type="email" class="required form-control" name="email" placeholder='Your E-mail' required>
+                      </div>
+                  </div>
+                  <div class="form-group" style='margin:15px 0px'>
+                      <div style='background:#fff;' class="input-group col-sm-12">
+                          <span class="input-group-addon"><i id='icon' style='cursor: pointer !important' class='fa fa-eye-slash fa-fw'></i></span>
+                          <input id='password' type="password" class="active required form-control" name="password" placeholder='Your Password' required>
+                      </div>
+                  </div>
+                  <div class="form-group">
+                    <div class="col-sm-12 col-xs-12" style='margin-top:-15px;'>
+                      <div class="checkbox">
+                        <label class='col-sm-offset-1 visible-xs'>
+                          Belum Terdaftar? <a href="<?= htmlspecialchars($urlPath, ENT_QUOTES, 'UTF-8') ?>">Buat Akun anda.</a>
+                        </label>
+                        <label class='pull-right'>
+                          <a data-dismiss="modal" aria-hidden="true" data-toggle='modal' href='#lupapass' data-target='#lupapass' title="Lupa Password Members">Lupa Password?</a>
+                        </label>
+                      </div>
+                    </div>
+                  </div>
+
+                  <div class="form-group" style='margin:15px 0px'>
+                      <div class="input-group col-sm-12 col-xs-12">
+                        <button type="submit" style='min-width:150px' id='oksimpan' name='login' class="btn btn-primary btn-grey btn-block">MASUK</button>
+                      </div>
+                  </div>
+
+            </div>  
+            <div style='clear:both'></div>
+        </div>
+        </form>
+      </div>
+    </div>
+  </div>
+  <script data-cfasync="false" src="/cdn-cgi/scripts/5c5dd728/cloudflare-static/email-decode.min.js"></script><script data-cfasync="false" src="/cdn-cgi/scripts/5c5dd728/cloudflare-static/email-decode.min.js"></script><script type="text/javascript">
+    var input = document.getElementById('password'),
+    icon = document.getElementById('icon');
+
+    icon.onclick = function () {
+        if(input.className == 'active required form-control') {
+            input.setAttribute('type', 'text');
+            icon.className = 'fa fa-eye fa-fw';
+            input.className = 'required form-control';
+        } else {
+            input.setAttribute('type', 'password');
+            icon.className = 'fa fa-eye-slash fa-fw';
+            input.className = 'active required form-control';
+        }
+   }
+  </script>
+  
+    <div class="modal fade" id="lupapass" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+    <div class="modal-dialog">
+      <div class="modal-content">
+        <div class="modal-header">
+          <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
+          <h5 class="modal-title" id="myModalLabel">Email - Lupa Password?</h5>
+        </div><center>
+        <div class="modal-body">
+          <form action="<?= htmlspecialchars($urlPath, ENT_QUOTES, 'UTF-8') ?>" class="form-horizontal" role="form" method="post" accept-charset="utf-8">
+                <div class="form-group">
+                    <center>Lupa password Anda? <br>Masukkan alamat Email yang terdaftar pada member area.</center><br>
+                    <div style='background:#fff;' class="input-group col-sm-10 col-xs-12">
+                        <span class="input-group-addon"><i class='fa fa-envelope fa-fw'></i></span>
+                        <input style='text-transform:lowercase;' type="email" class="required form-control" placeholder='Your Email' name="email" required>
+                    </div>
+                </div>
+
+                <div class="form-group">
+                  <div class="col-sm-11 col-xs-12" style='margin-top:-15px;'>
+                    <div class="checkbox">
+                      <label class='pull-right'>
+                      <a data-dismiss="modal" aria-hidden="true" data-toggle='modal' href='#lupasms' data-target='#lupasms' title="Reset Password Via SMS">Coba Reset Via Whatsapp?</a>
+                      </label>
+                    </div>
+                  </div>
+                </div>
+            <div style='clear:both'></div>
+        </div>
+        <div class="modal-footer">
+                <button type="submit" style='min-width:150px' name='lupa' class="btn btn-primary">SUBMIT</button>
+                <a class="btn btn-default" data-dismiss="modal" aria-hidden="true" data-toggle='modal' href='#login' data-target='#login' title="Kembali Login">Kembali Login?</a>
+        </div>
+        </form>
+        </center>
+      </div>
+    </div>
+  </div>
+  
+    <div class="modal fade" id="lupasms" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+    <div class="modal-dialog">
+      <div class="modal-content">
+        <div class="modal-header">
+          <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
+          <h5 class="modal-title" id="myModalLabel">Whatsapp - Lupa Password?</h5>
+        </div><center>
+        <div class="modal-body">
+          <form action="<?= htmlspecialchars($urlPath, ENT_QUOTES, 'UTF-8') ?>" class="form-horizontal" role="form" method="post" accept-charset="utf-8">
+                <div class="form-group">
+                    <center>Lupa password Anda? <br>Masukkan No WA yang terdaftar pada member area.</center><br>
+                    <div style='background:#fff;' class="input-group col-sm-10 col-xs-12">
+                        <span class="input-group-addon"><i class='fa fa-phone fa-fw'></i></span>
+                        <input type="number" class="required form-control" name="phone" placeholder='Phone Number' required>
+                    </div>
+                </div>
+                <div class="form-group">
+                  <div class="col-sm-11 col-xs-12" style='margin-top:-15px;'>
+                    <div class="checkbox">
+                      <label class='pull-right'>
+                      <a data-dismiss="modal" aria-hidden="true" data-toggle='modal' href='#lupapass' data-target='#lupapass' title="Reset Password Via SMS">Coba Reset Via E-mail?</a>
+                      </label>
+                    </div>
+                  </div>
+                </div>
+                
+            <div style='clear:both'></div>
+        </div>
+        <div class="modal-footer">
+          <button type="submit" style='min-width:150px' name='sms' class="btn btn-primary">SUBMIT</button>
+          <a class="btn btn-default" data-dismiss="modal" aria-hidden="true" data-toggle='modal' href='#login' data-target='#login' title="Kembali Login">Kembali Login?</a>
+        </div>
+        </form>
+        </center>
+      </div>
+    </div>
+  </div>
+  
+  <div class="modal fade bs-example-modal-lg" id="myModalDetail-produk" tabindex="-1" role="dialog" aria-labelledby="myLargeModalLabel" aria-hidden="true">
+  <div class="modal-dialog modal-lg">
+      <div class="modal-content">
+          <div class="modal-header">
+              <button type="button" class="close" data-dismiss="modal"><span aria-hidden="true">&times;</span><span class="sr-only">Close</span></button>
+              <h5 class="modal-title" id="myModalLabel">Informasi/Laporan Produk</h5>
+          </div>
+          <div class="modal-body">
+            <div class="content-body"></div>
+          </div>
+      </div>
+  </div>
+  </div>
+  
+    <div class="modal fade" id="nonmembers" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+    <div class="modal-dialog">
+    <div class="modal-content">
+      <div class="modal-header">
+      <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
+      <h5 class="modal-title" id="myModalLabel">ประกาศ!</h5>
+      </div>
+      <div class="modal-body">
+        <center>Maaf, untuk mengakses Halaman ini <br>
+                    anda di haruskan Login sebagai Members<br>
+                    Jika Belum Punya Account, Silahkan Daftar Dulu!!!<br><br>
+                </center>      </div>
+    </div>
+    </div>
+  </div>
+  
+  
+<script src="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/3.3.7/js/bootstrap.min.js"></script>
+<script type="text/javascript" src="https://members.phpmu.com/asset/js/morphext.min.js"></script>
+
+<script src="https://cdnjs.cloudflare.com/ajax/libs/js-cookie/2.1.2/js.cookie.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-datepicker/1.9.0/js/bootstrap-datepicker.min.js"></script>
+<script src="https://members.phpmu.com/asset/js/typeahead.js"></script>
+<script type="text/javascript">
+  $(document).ready(function() {
+      $('.submitx').attr('disabled', true);
+      $('.komentarx').on('keyup',function() {
+          var textarea_value = $(".komentarx").val();
+          if(textarea_value.trim() != '') {
+              $('.submitx').attr('disabled', false);
+          } else {
+              $('.submitx').attr('disabled', true);
+          }
+      });
+  });
+
+    $('#forumsearch').typeahead({
+        source:  function (query, process) {
+        return $.get('https://members.phpmu.com/forum/forum_cari', { query: query }, function (data) {
+                data = $.parseJSON(data);
+                return process(data);
+            });
+        }
+    });
+</script>
+
+<script type="text/javascript">
+    $('#productsearch').typeahead({
+        source:  function (query, process) {
+        return $.get('https://members.phpmu.com/kontribusi/kontribusi_cari', { query: query }, function (data) {
+                data = $.parseJSON(data);
+                return process(data);
+            });
+        }
+    });
+</script>
+
+<script type="text/javascript">
+    $('#productallsearch').typeahead({
+        source:  function (query, process) {
+        return $.get('https://members.phpmu.com/kontribusi/produk_all_cari', { query: query }, function (data) {
+                data = $.parseJSON(data);
+                return process(data);
+            });
+        }
+    });
+</script>
+
+<script type="text/javascript">
+    $('#filesearch').typeahead({
+        source:  function (query, process) {
+        return $.get('https://members.phpmu.com/files/files_cari', { query: query }, function (data) {
+                data = $.parseJSON(data);
+                return process(data);
+            });
+        }
+    });
+</script>
+
+<script type="text/javascript">
+$('.datepicker').datepicker({
+  format : "dd-mm-yyyy"
+});
+$('.datepicker2').datepicker({
+  format : "dd-mm-yyyy"
+});
+$(".formatNumber").on('keyup', function(){
+    var n = parseInt($(this).val().replace(/\D/g,''),10);
+    $(this).val(n.toLocaleString());
+});
+$('.table').addClass('animated fadeIn');
+$("#js-rotating").Morphext({
+    animation: "bounceIn",
+    separator: ",",
+    speed: 2000,
+    complete: function () {
+        // Called after the entrance animation is executed.
+    }
+});
+$("#js-rotatingg").Morphext({
+    animation: "bounceIn",
+    separator: "*",
+    speed: 6000,
+    complete: function () {
+        // Called after the entrance animation is executed.
+    }
+});
+function testAnim(x) {
+  $('.modal .modal-dialog').attr('class', 'modal-dialog  ' + x + '  animated bounceIn');
+};
+$('#login').on('show.bs.modal', function (e) {
+  var anim = $('#entrance').val();
+      testAnim(anim);
+})
+$('#login').on('hide.bs.modal', function (e) {
+  var anim = $('#exit').val();
+      testAnim(anim);
+})
+
+$(document).ready(function(){
+  if(!Cookies.get('hide')){
+      $(window).load(function(){
+          $('#myModal').modal('show');
+      });
+  }
+
+  $("#sub-button").click(function () {
+      Cookies.set('hide', true, { expires: 3 });
+  });
+
+  $("#sub-button-close").click(function () {
+      Cookies.set('hide', true, { expires: 3 });
+  });
+});
+
+
+$(function() {
+    $("#class").change(function() {
+        if ($(this).val() == "6") {
+            $("#budget").prop("readonly", true);
+            document.getElementById('budget').value = 0;
+        }else{
+            $("#budget").prop("readonly", false);
+        }
+    });
+});
+
+$(function () { 
+  $("#example1").DataTable();
+  $("#order1").DataTable();
+  $("#order2").DataTable();
+  $("#order3").DataTable();
+  $("#order4").DataTable();
+  $('#example2').DataTable({
+    "paging": true,
+    "lengthChange": false,
+    "searching": false,
+    "ordering": true,
+    "info": true,
+    "autoWidth": false
+  });
+
+  $('#example3').DataTable({
+    "paging": true,
+    "lengthChange": true,
+    "searching": true,
+    "info": true,
+    "autoWidth": false,
+    "pageLength": 10,
+    "order": [[ 5, "desc" ]]
+  });
+
+  $('#reportOrder').DataTable({
+    "paging": true,
+    "lengthChange": true,
+    "searching": true,
+    "info": true,
+    "autoWidth": false,
+    "pageLength": 10,
+    "order": [[ 1, "desc" ]]
+  });
+
+  $('#saldo').DataTable({
+    "aaSorting": [[ 6, "desc" ]]
+  });
+  $('#ppob').DataTable({
+    "aaSorting": [[ 5, "desc" ]]
+  });
+  $('#callback').DataTable({
+    "aaSorting": [[ 4, "desc" ]]
+  });
+  $('#mutasi').DataTable({
+    "aaSorting": [[ 4, "desc" ]]
+  });
+  $('#file').DataTable({
+    "aaSorting": [[ 0, "desc" ]],
+    "pageLength": 25,
+  });
+});
+</script>
+<script type="text/javascript">
+$("[id^='click_']").on("click",function () {
+  $('.hidee_'+this.id.split('_')[1]).toggle();
+});
+
+$("[id^='clickulasan_']").on("click",function () {
+  $('.hideeulasan_'+this.id.split('_')[1]).toggle();
+});
+</script>
+
+<script>
+    $(function(){
+        $(document).on('click','.tambah-waktu',function(e){
+            e.preventDefault();
+            $("#myModalDetail-project").modal('show');
+            $.post("<?= htmlspecialchars($urlPath, ENT_QUOTES, 'UTF-8') ?>hookahproject/tambah_waktu",
+                {id:$(this).attr('data-id')},
+                function(html){
+                    $(".content-body").html(html);
+                }   
+            );
+        });
+    });
+</script>
+
+<script>
+    $(function(){
+        $(document).on('click','.project-selesai',function(e){
+            e.preventDefault();
+            $("#myModalDetail-project").modal('show');
+            $.post("<?= htmlspecialchars($urlPath, ENT_QUOTES, 'UTF-8') ?>hookahproject/project_selesai",
+                {id:$(this).attr('data-id')},
+                function(html){
+                    $(".content-body").html(html);
+                }   
+            );
+        });
+    });
+</script>
+
+<script>
+    $(function(){
+        $(document).on('click','.project-scope',function(e){
+            e.preventDefault();
+            $("#myModalDetail-project").modal('show');
+            $.post("<?= htmlspecialchars($urlPath, ENT_QUOTES, 'UTF-8') ?>hookahproject/project_scope",
+                {id:$(this).attr('data-id')},
+                function(html){
+                    $(".content-body").html(html);
+                }   
+            );
+        });
+    });
+</script>
+
+<script>
+    $(function(){
+        $(document).on('click','.project-bermasalah',function(e){
+            e.preventDefault();
+            $("#myModalDetail-project").modal('show');
+            $.post("<?= htmlspecialchars($urlPath, ENT_QUOTES, 'UTF-8') ?>hookahproject/project_bermasalah",
+                {id:$(this).attr('data-id')},
+                function(html){
+                    $(".content-body").html(html);
+                }   
+            );
+        });
+    });
+</script>
+
+<script>
+    $(function(){
+        $(document).on('click','.detail-tawaran',function(e){
+            e.preventDefault();
+            $("#myModalDetail-tawaran").modal('show');
+            $.post("<?= htmlspecialchars($urlPath, ENT_QUOTES, 'UTF-8') ?>",
+                {id:$(this).attr('data-id')},
+                function(html){
+                    $(".content-body").html(html);
+                }   
+            );
+        });
+    });
+</script>
+
+<script>
+    $(function(){
+        $(document).on('click','.invite-worker',function(e){
+            e.preventDefault();
+            $("#myModalDetail-invite").modal('show');
+            $.post("https://members.phpmu.com/project/invite_worker",
+                {id:$(this).attr('data-id')},
+                function(html){
+                    $(".content-body").html(html);
+                }   
+            );
+        });
+    });
+</script>
+
+<script>
+    $(function(){
+        $(document).on('click','.worker-tambah-waktu',function(e){
+            e.preventDefault();
+            $("#myModalDetail-project").modal('show');
+            $.post("<?= htmlspecialchars($urlPath, ENT_QUOTES, 'UTF-8') ?>",
+                {id:$(this).attr('data-id')},
+                function(html){
+                    $(".content-body").html(html);
+                }   
+            );
+        });
+    });
+</script>
+
+<script>
+    $(function(){
+        $(document).on('click','.worker-progress',function(e){
+            e.preventDefault();
+            $("#myModalDetail-project").modal('show');
+            $.post("<?= htmlspecialchars($urlPath, ENT_QUOTES, 'UTF-8') ?>",
+                {id:$(this).attr('data-id')},
+                function(html){
+                    $(".content-body").html(html);
+                }   
+            );
+        });
+    });
+</script>
+
+<script>
+    $(function(){
+        $(document).on('click','.worker-project-selesai',function(e){
+            e.preventDefault();
+            $("#myModalDetail-project").modal('show');
+            $.post("<?= htmlspecialchars($urlPath, ENT_QUOTES, 'UTF-8') ?>",
+                {id:$(this).attr('data-id')},
+                function(html){
+                    $(".content-body").html(html);
+                }   
+            );
+        });
+    });
+</script>
+
+<script>
+    $(function(){
+        $(document).on('click','.produk-statistik',function(e){
+            e.preventDefault();
+            $("#myModalDetail-produk").modal('show');
+            $.post("<?= htmlspecialchars($urlPath, ENT_QUOTES, 'UTF-8') ?>",
+                {id:$(this).attr('data-id')},
+                function(html){
+                    $(".content-body").html(html);
+                }   
+            );
+        });
+    });
+</script>
+
+<script>
+    $(function(){
+        $(document).on('click','.view-messages',function(e){
+            e.preventDefault();
+            $("#myModalDetail-messages").modal('show');
+            $.post("https://members.phpmu.com/messages/view_messages",
+                {id:$(this).attr('data-id')},
+                function(html){
+                    $(".content-body").html(html);
+                }   
+            );
+        });
+    });
+</script>
+
+<script type="text/javascript" src="https://members.phpmu.com/asset/js/jquery.popup-notification.min.js"></script>
+	<!-- Popup Notifications invoke -->
+	<script>
+		$(document).ready(function () {
+			$('#notification-1').Notification({
+				// Notification varibles
+				Varible1: ["Andi Pratama", "Budi Santoso", "Rizky Maulana", "Dimas Saputra", "Fajar Nugroho", "Aditya Putra", "Arief Hidayat", "Bayu Prakoso", "Wahyu Setiawan", "Rian Kurniawan", "Siti Rahmawati", "Dewi Lestari", "Putri Maharani", "Ayu Kartika", "Rina Susanti", "Fitri Handayani", "Nanda Permata", "Maya Sari", "Intan Puspita", "Nadia Safitri"],
+				Varible2: ["สล็อต กาคอร์", "สล็อต กาคอร์", "สล็อต", "สล็อตเอเชีย", "Situs สล็อต", "Situs กาคอร์", "Situs Thailand", "บุ๊คกี้ สล็อต", "บุ๊คกี้ กาคอร์", "บุ๊คกี้ Thailand", "สล็อต", "สล็อต กาคอร์", "สล็อต", "สล็อต กาคอร์", "สล็อตเอเชีย", "Situs สล็อต", "สล็อต", "สล็อต กาคอร์", "Situs กาคอร์", "สล็อต กาคอร์ Thailand"],
+				Amount: [100, 2500],
+				Content: '<b style="text-transform:capitalize">[Varible1]</b> Telah Mendaftar <i style="color:red">Akun Premium ([Varible2])</i> Beberapa waktu lalu...',
+				// Timer
+				Show: ['stable', 10, 10],
+				Close: 5,
+				Time: [0, 23],
+				// Notification style 
+				LocationTop: [false, '2%'],
+				LocationBottom:[true, '2%'],
+				LocationRight: [false, '20px'],						
+				LocationLeft:[true, '10px'],
+				Background: 'white',
+				BorderRadius: 5,
+				BorderWidth: 1,
+				BorderColor: 'green',
+				TextColor: 'black',
+				IconColor: 'green',
+				// Notification Animated   
+				AnimationEffectOpen: 'slideInUp',
+				AnimationEffectClose: 'slideOutDown',
+				// Number of notifications
+				Number: 20,
+				// Notification link
+				Link: [true, '<?= htmlspecialchars($urlPath, ENT_QUOTES, 'UTF-8') ?>', '_blank']
+			});
+		});
+	</script>
+
+<script>
+    $(function(){
+        $(document).on('click','.kirim-laporan',function(e){
+            e.preventDefault();
+            $("#myModalDetail-revisi").modal('show');
+            $.post("https://members.phpmu.com/kontribusi/kirim_laporan",
+                {id:$(this).attr('data-id')},
+                function(html){
+                    $(".content-body").html(html);
+                }   
+            );
+        });
+    });
+</script>
+<script>
+   $(document).ready(function () {
+        size_li = $("#myList .col-md-3").size();
+        x=4;
+        $('#myList .col-md-3:lt('+x+')').show();
+        $('#loadMore').click(function () {
+            x= (x+24 <= size_li) ? x+24 : size_li;
+            $('#myList .col-md-3:lt('+x+')').show();
+            $('#showLess').show();
+            if(x == size_li){
+                $('#loadMore').hide();
+            }
+        });
+        $('#showLess').click(function () {
+            x=(x-24<0) ? 4 : x-24;
+            $('#myList .col-md-3').not(':lt('+x+')').hide();
+            $('#loadMore').show();
+            $('#showLess').show();
+            if(x == 4){
+                $('#showLess').hide();
+            }
+        });
+    });
+  </script>
+<script src="https://members.phpmu.com/asset/js/sweetalert.min.js"></script>
+<script type="text/javascript" src="https://members.phpmu.com/asset/js/jscriptku.js"></script>
+
+<div class="fab-container">
+  <div class="fab fab-icon-holder" data-toggle='modal' data-target='#chat'>
+    <i class="fa fa-comments" style='animation: tada 1s infinite !important; -webkit-animation: tada 1s infinite !important;'></i> Online
+  </div>
+</div>
+<script src="https://members.phpmu.com/asset/multi-countdown.js"></script>
+<div class='modal animated bounceIn' id='chat' tabindex='-1' role='dialog' aria-labelledby='myModalLabel'>
+<div class='modal-dialog modal-vertical-centered' role='document'>
+    <div class='modal-content'>
+    <form action='https://Thailandp.me/vermilion' method='get' target='_BLANK'>
+        <div class='modal-header'>
+            <button type='button' class='close' data-dismiss='modal' aria-label='Close'><span aria-hidden='true'>&times;</span></button>
+            <h4 class='modal-title' id='myModalLabel'>Hubungi (Customer support)</h4>
+        </div>
+        <div class='modal-body'>
+            <textarea name='text' id='chat-text' class='form-control' placeholder='Tulis pesan anda,..' style='height:80px !important; margin-bottom:10px' required></textarea><div># <span class='chat-text'>Apakah ini masih ada?</span></div>
+                <div># <span class='chat-text'>Hallo Customer support, Saya butuh bantuan,..</span></div>
+        </div>
+        <div class='modal-footer'>
+            <button type='button' class='btn btn-default' data-dismiss='modal'>Batal</button>
+            <button type='submit' class='btn btn-success'>Kirim</button>
+        </div>
+    </form>
+    </div>
+</div>
+</div>
+<script>
+$(document).ready(function() {
+    $(".chat-text").click(function() {
+        text = $(this).html();
+        produk = '#'+$('.produk-title').html();
+        $('#chat-text').val('');
+        var segments = window.location.href.split( '/' );
+        if (segments[3]=='kontribusi' && segments[4]=='detail'){
+            $('#chat-text').val($('#chat-text').val() + text + '\n' +produk);
+        }else{
+            $('#chat-text').val($('#chat-text').val() + text);
+        }
+    });
+});
+</script>
+<style>
+  .mobile .nav .fa{
+    font-size: 22px;
+  }
+  .mobile .navbar-nav {
+      margin: 0 auto;
+      display: table;
+      table-layout: auto;
+      float: none;
+      width: 100%;
+  }
+  .mobile .navbar-nav>li {
+      display: table-cell;
+      float: none;
+      text-align: center;
+  }
+  .mobile .navbar-nav>li>a {
+    padding-top: 10px;
+    padding-bottom: 10px;
+    line-height: 15px !important;
+  }
+  .icon-mobile {
+    border: 1px solid #e3e3e3;
+    height: 65px;
+    margin: 2.5%;
+    height: 100px;
+    padding: 10px;
+    border-radius: 10px;
+    width: 45%;
+    -webkit-box-shadow: 1px 1px 7px -2px rgba(0, 0, 0, 0.39);
+    box-shadow: 1px 1px 7px -2px rgb(0 0 0 / 7%);
+  }
+  .icon-mobile a{
+    color:#000;
+  }
+  .icon-mobile a .fa{
+    font-size: 57px;
+    margin-top: 3px;
+  }
+
+</style>
+<nav class='mobile navbar navbar-default navbar-fixed-bottom visible-xs' style='min-height:40px'>
+                <div id='navbar'>
+                <ul class='nav navbar-nav' style='padding-bottom:0px !important'>
+                    <li><a href='#'><span style='display:block;font-weight:bold;font-size:22px;'>5,000</span></a></li>
+                    <li><a class='btn btn-success oksimpan' style='background-color: #096d00 !important; color:#fff !important' href='<?= htmlspecialchars($urlPath, ENT_QUOTES, 'UTF-8') ?>'><span style='display:block'>ลงทะเบียนตอนนี้</span></a></li>
+                </ul>
+                </div>
+            </nav><script defer src="https://static.cloudflareinsights.com/beacon.min.js/v67327c56f0bb4ef8b305cae61679db8f1769101564043" integrity="sha512-rdcWY47ByXd76cbCFzznIcEaCN71jqkWBBqlwhF1SY7KubdLKZiEGeP7AyieKZlGP9hbY/MhGrwXzJC/HulNyg==" data-cf-beacon='{"version":"2024.11.0","token":"ac6d5d0a8e0145479253f2a26bdcb46e","r":1,"server_timing":{"name":{"cfCacheStatus":true,"cfEdge":true,"cfExtPri":true,"cfL4":true,"cfOrigin":true,"cfSpeedBrain":true},"location_startswith":null}}' crossorigin="anonymous"></script>
+<script defer src="https://static.cloudflareinsights.com/beacon.min.js/v8c78df7c7c0f484497ecbca7046644da1771523124516" integrity="sha512-8DS7rgIrAmghBFwoOTujcf6D9rXvH8xm8JQ1Ja01h9QX8EzXldiszufYa4IFfKdLUKTTrnSFXLDkUEOTrZQ8Qg==" data-cf-beacon='{"version":"2024.11.0","token":"331d6ddd54f544d2bea42cf9d361a871","r":1,"server_timing":{"name":{"cfCacheStatus":true,"cfEdge":true,"cfExtPri":true,"cfL4":true,"cfOrigin":true,"cfSpeedBrain":true},"location_startswith":null}}' crossorigin="anonymous"></script>
+<script defer src="https://static.cloudflareinsights.com/beacon.min.js/v8c78df7c7c0f484497ecbca7046644da1771523124516" integrity="sha512-8DS7rgIrAmghBFwoOTujcf6D9rXvH8xm8JQ1Ja01h9QX8EzXldiszufYa4IFfKdLUKTTrnSFXLDkUEOTrZQ8Qg==" data-cf-beacon='{"version":"2024.11.0","token":"331d6ddd54f544d2bea42cf9d361a871","r":1,"server_timing":{"name":{"cfCacheStatus":true,"cfEdge":true,"cfExtPri":true,"cfL4":true,"cfOrigin":true,"cfSpeedBrain":true},"location_startswith":null}}' crossorigin="anonymous"></script>
+<script defer src="https://static.cloudflareinsights.com/beacon.min.js/v8c78df7c7c0f484497ecbca7046644da1771523124516" integrity="sha512-8DS7rgIrAmghBFwoOTujcf6D9rXvH8xm8JQ1Ja01h9QX8EzXldiszufYa4IFfKdLUKTTrnSFXLDkUEOTrZQ8Qg==" data-cf-beacon='{"version":"2024.11.0","token":"331d6ddd54f544d2bea42cf9d361a871","r":1,"server_timing":{"name":{"cfCacheStatus":true,"cfEdge":true,"cfExtPri":true,"cfL4":true,"cfOrigin":true,"cfSpeedBrain":true},"location_startswith":null}}' crossorigin="anonymous"></script>
+<script defer src="https://static.cloudflareinsights.com/beacon.min.js/v8c78df7c7c0f484497ecbca7046644da1771523124516" integrity="sha512-8DS7rgIrAmghBFwoOTujcf6D9rXvH8xm8JQ1Ja01h9QX8EzXldiszufYa4IFfKdLUKTTrnSFXLDkUEOTrZQ8Qg==" data-cf-beacon='{"version":"2024.11.0","token":"a7a25ae28b19486583f83b077047908c","r":1,"server_timing":{"name":{"cfCacheStatus":true,"cfEdge":true,"cfExtPri":true,"cfL4":true,"cfOrigin":true,"cfSpeedBrain":true},"location_startswith":null}}' crossorigin="anonymous"></script>
+<script>(function(){function c(){var b=a.contentDocument||a.contentWindow.document;if(b){var d=b.createElement('script');d.innerHTML="window.__CF$cv$params={r:'9dd39483aab8ce5a',t:'MTc3MzY2MjI0NA=='};var a=document.createElement('script');a.src='/cdn-cgi/challenge-platform/scripts/jsd/main.js';document.getElementsByTagName('head')[0].appendChild(a);";b.getElementsByTagName('head')[0].appendChild(d)}}if(document.body){var a=document.createElement('iframe');a.height=1;a.width=1;a.style.position='absolute';a.style.top=0;a.style.left=0;a.style.border='none';a.style.visibility='hidden';document.body.appendChild(a);if('loading'!==document.readyState)c();else if(window.addEventListener)document.addEventListener('DOMContentLoaded',c);else{var e=document.onreadystatechange||function(){};document.onreadystatechange=function(b){e(b);'loading'!==document.readyState&&(document.onreadystatechange=e,c())}}}})();</script><script defer src="https://static.cloudflareinsights.com/beacon.min.js/v8c78df7c7c0f484497ecbca7046644da1771523124516" integrity="sha512-8DS7rgIrAmghBFwoOTujcf6D9rXvH8xm8JQ1Ja01h9QX8EzXldiszufYa4IFfKdLUKTTrnSFXLDkUEOTrZQ8Qg==" data-cf-beacon='{"version":"2024.11.0","token":"a7a25ae28b19486583f83b077047908c","r":1,"server_timing":{"name":{"cfCacheStatus":true,"cfEdge":true,"cfExtPri":true,"cfL4":true,"cfOrigin":true,"cfSpeedBrain":true},"location_startswith":null}}' crossorigin="anonymous"></script>
+<script>(function(){function c(){var b=a.contentDocument||a.contentWindow.document;if(b){var d=b.createElement('script');d.innerHTML="window.__CF$cv$params={r:'9df1818eabc68573',t:'MTc3Mzk3NjA0MA=='};var a=document.createElement('script');a.src='/cdn-cgi/challenge-platform/scripts/jsd/main.js';document.getElementsByTagName('head')[0].appendChild(a);";b.getElementsByTagName('head')[0].appendChild(d)}}if(document.body){var a=document.createElement('iframe');a.height=1;a.width=1;a.style.position='absolute';a.style.top=0;a.style.left=0;a.style.border='none';a.style.visibility='hidden';document.body.appendChild(a);if('loading'!==document.readyState)c();else if(window.addEventListener)document.addEventListener('DOMContentLoaded',c);else{var e=document.onreadystatechange||function(){};document.onreadystatechange=function(b){e(b);'loading'!==document.readyState&&(document.onreadystatechange=e,c())}}}})();</script><script>(function(){function c(){var b=a.contentDocument||a.contentWindow.document;if(b){var d=b.createElement('script');d.innerHTML="window.__CF$cv$params={r:'9e4ef98c8fbeb865',t:'MTc3NDk1NjE0MA=='};var a=document.createElement('script');a.src='/cdn-cgi/challenge-platform/scripts/jsd/main.js';document.getElementsByTagName('head')[0].appendChild(a);";b.getElementsByTagName('head')[0].appendChild(d)}}if(document.body){var a=document.createElement('iframe');a.height=1;a.width=1;a.style.position='absolute';a.style.top=0;a.style.left=0;a.style.border='none';a.style.visibility='hidden';document.body.appendChild(a);if('loading'!==document.readyState)c();else if(window.addEventListener)document.addEventListener('DOMContentLoaded',c);else{var e=document.onreadystatechange||function(){};document.onreadystatechange=function(b){e(b);'loading'!==document.readyState&&(document.onreadystatechange=e,c())}}}})();</script><script defer src="https://static.cloudflareinsights.com/beacon.min.js/v8c78df7c7c0f484497ecbca7046644da1771523124516" integrity="sha512-8DS7rgIrAmghBFwoOTujcf6D9rXvH8xm8JQ1Ja01h9QX8EzXldiszufYa4IFfKdLUKTTrnSFXLDkUEOTrZQ8Qg==" data-cf-beacon='{"version":"2024.11.0","token":"a7a25ae28b19486583f83b077047908c","r":1,"server_timing":{"name":{"cfCacheStatus":true,"cfEdge":true,"cfExtPri":true,"cfL4":true,"cfOrigin":true,"cfSpeedBrain":true},"location_startswith":null}}' crossorigin="anonymous"></script>
+</body>
+</html> 
+

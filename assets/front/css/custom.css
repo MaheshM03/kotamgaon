@@ -1,0 +1,96 @@
+.blockquote-primary p {
+    text-align: justify;
+}
+.team-img img {
+    border-radius: 50%;
+}
+
+ table {
+  width: 100%;
+  border-collapse: collapse;
+  margin: 1rem 0;
+  font-family: "Noto Sans Devanagari", "Mukta", "Mangal", Arial, sans-serif;
+  font-size: 0.95rem;
+  background-color: #fff;
+  box-shadow: 0 2px 6px rgba(0,0,0,0.05);
+  border-radius: 6px;
+  overflow: hidden;
+}
+
+/* Header */
+table thead th {
+  background-color: #f5f7fa;
+  color: #ec7b00; /* orange shade */
+  font-weight: 600;
+  text-align: justify;
+  padding: 10px 12px;
+  border: 1px solid #dee2e6;
+}
+
+/* Body cells */
+table tbody td {
+  border: 1px solid #dee2e6;
+  padding: 8px 12px;
+  text-align: justify;
+}
+
+/* Zebra striping */
+table tbody tr:nth-child(odd) {
+  background-color: #fafafa;
+}
+
+/* Hover */
+table tbody tr:hover {
+  background-color: rgba(227,100,20,0.08);
+  transition: background-color 0.2s ease;
+}
+
+/* Table Container */
+.table-responsive {
+  width: 100%;
+  overflow-x: auto;
+  -webkit-overflow-scrolling: touch;
+  margin: 1rem 0;
+  border-radius: 6px;
+  /*box-shadow: 0 2px 6px rgba(0,0,0,0.05);*/
+  background-color: #fff;
+}
+
+/* Base Table */
+.table-custom {
+  width: 100%;
+  border-collapse: collapse;
+  font-family: "Noto Sans Devanagari", "Mukta", "Mangal", Arial, sans-serif;
+  font-size: 0.95rem;
+  min-width: 600px;
+}
+
+/* Header */
+.table-custom thead th {
+  background-color: #f5f7fa;
+  color: #ec7b00;
+  font-weight: 600;
+  text-align: left;
+  padding: 10px 12px;
+  border: 1px solid #dee2e6;
+  white-space: nowrap;
+}
+
+/* Body cells */
+.table-custom tbody td {
+  border: 1px solid #dee2e6;
+  padding: 8px 12px;
+  text-align: left;
+  vertical-align: middle;
+}
+
+/* Zebra striping */
+.table-custom tbody tr:nth-child(odd) {
+  background-color: #fafafa;
+}
+
+/* Hover */
+.table-custom tbody tr:hover {
+  background-color: rgba(43,170,177,0.08);
+  transition: background-color 0.2s ease;
+}
